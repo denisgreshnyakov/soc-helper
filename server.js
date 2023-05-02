@@ -1,26 +1,58 @@
 const http = require("http");
 const fs = require("fs");
+const path = require("path");
 
-const requestListener = function (request, response) {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  console.log(request.url);
-  if (request.url === "/") {
-    let data = "";
-    request.on("data", (chunk) => {
-      data += chunk;
-    });
-    request.on("end", () => {
-      console.log(data);
-      response.end("Данные успешно получены");
-    });
-  } else {
-    console.log("this place is working now");
-    fs.readFile("index.html", (error, data) => response.end(data));
-  }
-};
-
+// server
 http
-  .createServer(requestListener)
-  .listen(3000, () =>
-    console.log("Сервер запущен по адресу http://localhost:3000")
-  );
+  .createServer((req, res) => {
+    //корень = /
+    //загружаем файл в uploads
+    //статика
+
+    console.log(`req: ${req.url}`);
+    if (req.url === "/") {
+      sendRes("index.html", "text/html", res);
+    } else if (/\/uploads\/[^\/]+$/.test(req.url) && req.method === "POST") {
+    } else {
+      sendRes(req.url, getContentType(req.url), res);
+    }
+  })
+  .listen(3000, () => {
+    console.log("server start 3000");
+  });
+
+// отправка ресурсов
+function sendRes(url, contentType, res) {
+  let file = path.join(__dirname + "/static/", url);
+  fs.readFile(file, (err, content) => {
+    if (err) {
+      res.writeHead(404);
+      res.write("file not found");
+      res.end();
+      console.log(`error 404 ${file}`);
+    } else {
+      res.writeHead(200, { "Content-Type": contentType });
+      res.write(content);
+      res.end();
+      console.log(`res 200 ${file}`);
+    }
+  });
+}
+
+// тип контента
+function getContentType(url) {
+  switch (path.extname(url)) {
+    case ".html":
+      return "text/html";
+    case ".css":
+      return "text/css";
+    case ".js":
+      return "text/javascript";
+    case ".json":
+      return "application/json";
+    default:
+      return "application/octate-stream";
+  }
+}
+
+// сохранение файла

@@ -11,7 +11,11 @@
     <div class="center">
       <h1>Сравнение файлов</h1>
       <p>Нажмите, чтобы отправить запрос на сервер:</p>
-      <button>Отправить запрос</button>
+      <!-- <button>Отправить запрос</button> -->
+      <form name="uploader" enctype="multipart/form-data" method="POST">
+        Отправить этот файл: <input name="userfile" type="file" />
+        <button type="submit" name="submit">Загрузить</button>
+      </form>
     </div>
   </body>
   <script src="script.js"></script>
