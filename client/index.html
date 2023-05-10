@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <title>Сравнить РСО</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Сравнение файлов</h1>
+      <p>Загрузите ваши файлы и нажмите кнопку "Сравнить":</p>
+
+      <form name="uploader" enctype="multipart/form-data" method="POST">
+        <div class="form">
+          <div>
+            <!-- Наименование файла запроса:
+            <input type="text" name="fn" id="fn" />  -->
+            Вложите файл запрос:
+            <input name="userfile" type="file" id="file-request" />
+          </div>
+
+          <div>
+            Вложите файл ответ:
+            <input name="userfile" type="file" id="file-answer" />
+          </div>
+
+          <div>
+            <button type="submit" name="submit" id="upload">
+              Загрузить файлы
+            </button>
+          </div>
+        </div>
+      </form>
+      <button type="button" id="compare">Сравнить</button>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
