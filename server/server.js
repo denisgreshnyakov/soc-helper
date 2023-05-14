@@ -52,6 +52,23 @@ app.post("/", (req, res) => {
   res.json({ status: "files have compared" });
 });
 
+app.get("/uploads", (req, res) => {
+  try {
+    console.log("function to download the file");
+    if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
+      console.log("file exist! Sending");
+      return res.download("./uploads/result.xlsx", "result.xlsx", (err) => {
+        console.log("ошибочка!!");
+        console.log(err);
+      });
+    }
+    return res.status(400).json({ message: "Download error" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "download error try catch" });
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

@@ -27,5 +27,20 @@ compare.addEventListener("click", () => {
     method: "POST",
   })
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) => console.log(data))
+    .then(downloadResult());
 });
+
+const downloadResult = async () => {
+  const response = await fetch("http://127.0.0.1:5000/uploads");
+  if (response.status === 200) {
+    const blob = await response.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "result.xlsx";
+    document.body.append(link);
+    link.click();
+    link.remove();
+  }
+};

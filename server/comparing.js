@@ -1,4 +1,5 @@
 const XLSX = require("xlsx");
+const fs = require("fs");
 // const ExcelJS = require("exceljs");
 
 const data = [];
@@ -15,32 +16,23 @@ const compare = (filename) => {
     data.push(XLSX.utils.sheet_to_json(workssheet));
   });
 
-  // let check = false;
-
   for (let j = 0; j < data[1].length; j++) {
     NNN.push(data[1][j].NNN);
   }
 
-  // console.log(NNN);
-
   for (let i = 0; i < data[0].length; i++) {
-    // console.log(typeof data[0][i].NNN);
     if (!NNN.includes(Number(data[0][i].NNN))) {
-      console.log(data[0][i]);
+      // console.log(data[0][i]);
+      result.push(data[0][i]);
     }
-    // console.log(data[0][i].NNN);
-    // for (let j = 0; j < data[1].length; j++) {
-    //   if (data[0][i].NNN === data[1][j].NNN) {
-    //     check = true;
-    //   }
-    // }
-    // if (check) {
-    //   result.push(data[0][i]);
-    // }
-    // check = false;
   }
 
-  console.log("finish");
+  const workSheet = XLSX.utils.json_to_sheet(result);
+  const workBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workBook, workSheet, "Отсутствуют ответы");
+  XLSX.writeFile(workBook, "./uploads/result.xlsx");
+
+  console.log("finish comparing");
 
   // console.log(result.length);
   // for (let i = 1; i <= 2; i++) {

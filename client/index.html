@@ -4,37 +4,76 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+
+    <link
+      type="image/x-icon"
+      href="img/scale-unbalanced-solid.svg"
+      rel="shortcut icon"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
     <title>Сравнить РСО</title>
   </head>
   <body>
     <div class="container">
-      <h1>Сравнение файлов</h1>
+      <h1>Сравнение файлов РСО</h1>
       <p>Загрузите ваши файлы и нажмите кнопку "Сравнить":</p>
 
       <form name="uploader" enctype="multipart/form-data" method="POST">
         <div class="form">
-          <div>
-            <!-- Наименование файла запроса:
-            <input type="text" name="fn" id="fn" />  -->
-            Вложите файл запрос:
-            <input name="userfile" type="file" id="file-request" />
+          <div class="">
+            <div class="mb-3">
+              <label for="formFile" class="form-label"
+                >Вложите файл запрос:</label
+              >
+              <input
+                class="form-control"
+                name="userfile"
+                type="file"
+                id="file-request"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="formFile" class="form-label"
+                >Вложите файл ответ:</label
+              >
+
+              <input
+                class="form-control"
+                name="userfile"
+                type="file"
+                id="file-answer"
+              />
+            </div>
           </div>
 
           <div>
-            Вложите файл ответ:
-            <input name="userfile" type="file" id="file-answer" />
-          </div>
-
-          <div>
-            <button type="submit" name="submit" id="upload">
+            <button
+              class="btn btn-primary"
+              type="submit"
+              name="submit"
+              id="upload"
+            >
               Загрузить файлы
             </button>
           </div>
         </div>
       </form>
-      <button type="button" id="compare">Сравнить</button>
+      <button class="btn btn-primary" type="button" id="compare">
+        Сравнить
+      </button>
     </div>
+    <footer class=".bg-secondary text-center text-lg-start">
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2023 Created by
+        <a class="text-dark" href="https://github.com/denisgreshnyakov"
+          >denisgreshnyakov</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
   </body>
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
 </html>
