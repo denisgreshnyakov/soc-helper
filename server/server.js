@@ -69,6 +69,6 @@ app.get("/uploads", (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(80, "192.168.1.27", () => {
   console.log("Server running on port 5000");
 });

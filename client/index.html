@@ -21,7 +21,7 @@
 
       <form name="uploader" enctype="multipart/form-data" method="POST">
         <div class="form">
-          <div class="">
+          <div class="input-files">
             <div class="mb-3">
               <label for="formFile" class="form-label"
                 >Вложите файл запрос:</label
@@ -48,21 +48,36 @@
             </div>
           </div>
 
-          <div>
+          <div class="btn-upload">
             <button
               class="btn btn-primary"
               type="submit"
               name="submit"
               id="upload"
             >
-              Загрузить файлы
+              <span class="span-upload-files">Загрузить файлы</span>
+              <span
+                class="spinner-upload spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span class="spinner-upload sr-only">Загрузка...</span>
             </button>
           </div>
         </div>
       </form>
-      <button class="btn btn-primary" type="button" id="compare">
-        Сравнить
-      </button>
+      <div class="btn-compare">
+        <button class="btn btn-primary" type="button" id="compare">
+          <span class="span-compare-files">Сравнить</span>
+          <span
+            class="spinner-compare spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          <span class="spinner-compare sr-only">Сравнение...</span>
+        </button>
+        <!-- <div class="spinner-border spinner-compare" role="status"></div> -->
+      </div>
     </div>
     <footer class=".bg-secondary text-center text-lg-start">
       <!-- Copyright -->
