@@ -16,7 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   /* align-items: center;
   width: 100%;
   /* height: 100vh; */
@@ -100,6 +100,7 @@ footer {
 .btn-compare {
   display: flex;
   align-items: center;
+  margin-bottom: 40px;
 }
 
 .spinner-upload {
@@ -110,3 +111,35 @@ footer {
   display: none;
 }
 
+.label {
+  animation: show 2s;
+}
+
+.table {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+  overflow: auto;
+  animation: show 2s;
+}
+.table th {
+  font-weight: bold;
+  padding: 5px;
+  background: #efefef;
+  border: 1px solid #dddddd;
+}
+.table td {
+  border: 1px solid #dddddd;
+  padding: 5px;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

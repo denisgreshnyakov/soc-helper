@@ -7,22 +7,32 @@ const result = [];
 const NNN = [];
 
 const compare = (filename) => {
-  filename.forEach((elem) => {
-    console.log(elem);
+  data.splice(0, data.length);
+  result.splice(0, result.length);
+  NNN.splice(0, NNN.length);
+
+  filename.forEach((elem, i) => {
+    console.log("reading " + i + " file: " + elem);
     const workbook = XLSX.readFile("uploads/" + elem);
 
     let workssheet = workbook.Sheets[workbook.SheetNames[0]];
 
     data.push(XLSX.utils.sheet_to_json(workssheet));
+
+    fs.unlink(__dirname + "/uploads/" + elem, (err) => {
+      if (err) throw err;
+      console.log("file " + elem + " has been deleted");
+    });
   });
 
+  console.log("start comparing");
+
   for (let j = 0; j < data[1].length; j++) {
-    NNN.push(data[1][j].NNN);
+    NNN.push(Number(data[1][j].NNN));
   }
 
   for (let i = 0; i < data[0].length; i++) {
     if (!NNN.includes(Number(data[0][i].NNN))) {
-      // console.log(data[0][i]);
       result.push(data[0][i]);
     }
   }
@@ -33,6 +43,8 @@ const compare = (filename) => {
   XLSX.writeFile(workBook, "./uploads/result.xlsx");
 
   console.log("finish comparing");
+
+  return result;
 
   // console.log(result.length);
   // for (let i = 1; i <= 2; i++) {

@@ -39,36 +39,52 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage: storage });
 
+//upload files
 app.post("/uploads", uploads.array("files"), (req, res) => {
-  // console.log(req.body);
-  // console.log(req.files);
-
-  res.json({ status: "files received" });
+  try {
+    console.log("files have been uploaded to the server");
+    console.log(filename);
+    res.json({ message: "Файлы успешно загружены на сервер." });
+  } catch (e) {
+    console.log("upload files error: " + e);
+    res.status(500).json({ message: "upload files error " });
+  }
 });
 
+//compare files
 app.post("/", (req, res) => {
-  compare(filename);
-  filename.length = 0;
-  res.json({ status: "files have compared" });
+  try {
+    const result = compare(filename);
+    filename.splice(0, filename.length);
+    res.json(result);
+  } catch (e) {
+    console.log("comparing files error: " + e);
+    res.status(500).json({ message: "comparing files error " });
+  }
 });
 
+//download
 app.get("/uploads", (req, res) => {
   try {
-    console.log("function to download the file");
     if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
       console.log("file exist! Sending");
       return res.download("./uploads/result.xlsx", "result.xlsx", (err) => {
-        console.log("ошибочка!!");
-        console.log(err);
+        fs.unlink(__dirname + "/uploads/" + "result.xlsx", (err) => {
+          if (err) throw err;
+          console.log("file result.xlsx has been deleted");
+        });
+        if (err) {
+          console.log("error sending data to client, type: " + err);
+        }
       });
     }
     return res.status(400).json({ message: "Download error" });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "download error try catch" });
+    res.status(500).json({ message: "Internal Server Error (Download error)" });
   }
 });
 
-app.listen(80, "192.168.1.27", () => {
+app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
