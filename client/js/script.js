@@ -31,7 +31,7 @@ form.addEventListener("submit", (e) => {
 
   console.log(...formData);
 
-  fetch("http://127.0.0.1:5000/uploads", {
+  fetch("http://192.168.1.27:80/uploads", {
     method: "POST",
     body: formData,
   })
@@ -68,7 +68,7 @@ compare.addEventListener("click", () => {
   spanCompareFiles.style = "display: none";
   spinnerCompare[0].style = "display: inline-block";
   spinnerCompare[1].style = "display: inline-block";
-  fetch("http://127.0.0.1:5000/", {
+  fetch("http://192.168.1.27:80/", {
     method: "POST",
   })
     .then((res) => res.json())
@@ -113,7 +113,7 @@ compare.addEventListener("click", () => {
 
 const downloadResult = async () => {
   try {
-    const response = await fetch("http://127.0.0.1:5000/uploads");
+    const response = await fetch("http://192.168.1.27:80/uploads");
     if (response.status === 200) {
       const blob = await response.blob();
       const downloadUrl = window.URL.createObjectURL(blob);

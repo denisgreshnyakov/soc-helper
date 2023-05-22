@@ -68,15 +68,19 @@ app.get("/uploads", (req, res) => {
   try {
     if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
       console.log("file exist! Sending");
-      return res.download("./uploads/result.xlsx", "result.xlsx", (err) => {
-        fs.unlink(__dirname + "/uploads/" + "result.xlsx", (err) => {
-          if (err) throw err;
-          console.log("file result.xlsx has been deleted");
-        });
-        if (err) {
-          console.log("error sending data to client, type: " + err);
+      return res.download(
+        __dirname + "/uploads/result.xlsx",
+        "result.xlsx",
+        (err) => {
+          fs.unlink(__dirname + "/uploads/" + "result.xlsx", (err) => {
+            if (err) throw err;
+            console.log("file result.xlsx has been deleted");
+          });
+          if (err) {
+            console.log("error sending data to client, type: " + err);
+          }
         }
-      });
+      );
     }
     return res.status(400).json({ message: "Download error" });
   } catch (e) {
@@ -85,6 +89,6 @@ app.get("/uploads", (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(80, "192.168.1.27", () => {
   console.log("Server running on port 5000");
 });

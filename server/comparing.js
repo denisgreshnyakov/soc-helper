@@ -13,7 +13,7 @@ const compare = (filename) => {
 
   filename.forEach((elem, i) => {
     console.log("reading " + i + " file: " + elem);
-    const workbook = XLSX.readFile("uploads/" + elem);
+    const workbook = XLSX.readFile(__dirname + "/uploads/" + elem);
 
     let workssheet = workbook.Sheets[workbook.SheetNames[0]];
 
@@ -40,7 +40,7 @@ const compare = (filename) => {
   const workSheet = XLSX.utils.json_to_sheet(result);
   const workBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workBook, workSheet, "Отсутствуют ответы");
-  XLSX.writeFile(workBook, "./uploads/result.xlsx");
+  XLSX.writeFile(workBook, __dirname + "/uploads/result.xlsx");
 
   console.log("finish comparing");
 
