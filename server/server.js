@@ -44,24 +44,36 @@ app.post("/uploads", uploads.array("files"), (req, res) => {
   try {
     console.log("files have been uploaded to the server");
     console.log(filename);
-    res.json({ message: "Файлы успешно загружены на сервер." });
+    // res.json({ message: "Файлы успешно загружены на сервер." });
   } catch (e) {
     console.log("upload files error: " + e);
     res.status(500).json({ message: "upload files error " });
   }
+  return processFiles(res);
 });
 
-//compare files
-app.post("/", (req, res) => {
+// //compare files
+// app.post("/", (req, res) => {
+//   try {
+//     const result = compare(filename);
+//     filename.splice(0, filename.length);
+//     res.json(result);
+//   } catch (e) {
+//     console.log("comparing files error: " + e);
+//     res.status(500).json({ message: "comparing files error " });
+//   }
+// });
+
+const processFiles = (res) => {
   try {
     const result = compare(filename);
     filename.splice(0, filename.length);
-    res.json(result);
+    return res.json(result);
   } catch (e) {
     console.log("comparing files error: " + e);
-    res.status(500).json({ message: "comparing files error " });
+    return res.status(500).json({ message: "comparing files error " });
   }
-});
+};
 
 //download
 app.get("/uploads", (req, res) => {

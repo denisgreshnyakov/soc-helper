@@ -6,6 +6,7 @@ const spanCompareFiles = document.querySelector(".span-compare-files");
 const spinnerUpload = document.querySelectorAll(".spinner-upload");
 const spinnerCompare = document.querySelectorAll(".spinner-compare");
 
+//загрузить и сравнить
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -37,42 +38,7 @@ form.addEventListener("submit", (e) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
-      document.querySelector(".result").innerHTML = "";
-      const label = document.createElement("div");
-      label.classList.add("label");
-      label.innerHTML = `
-      <h2>Результат: </h2>
-      <span>${data.message}</span>
-      `;
-      document.querySelector(".result").appendChild(label);
-    })
-    .then(() => {
-      spanUploadFiles.style = "display: block";
-      spinnerUpload[0].style = "display: none";
-      spinnerUpload[1].style = "display: none";
-    });
-  e.target.reset();
-});
-
-compare.addEventListener("click", () => {
-  document.querySelector(".result").innerHTML = `
-  <div class="spinner">
-  <div class="dot dot1"></div>
-  <div class="dot dot2"></div>
-  <div class="dot dot3"></div>
-  <div class="dot dot4"></div>
-</div>
-`;
-
-  spanCompareFiles.style = "display: none";
-  spinnerCompare[0].style = "display: inline-block";
-  spinnerCompare[1].style = "display: inline-block";
-  fetch("http://192.168.1.27:80/", {
-    method: "POST",
-  })
-    .then((res) => res.json())
-    .then((data) => {
+      console.log("Данные после обработки: ");
       console.log(data);
 
       document.querySelector(".result").innerHTML = "";
@@ -102,13 +68,12 @@ compare.addEventListener("click", () => {
         }
         document.querySelector(".table").appendChild(row);
       });
-    })
-    .then(downloadResult())
-    .then(() => {
-      spanCompareFiles.style = "display: block";
-      spinnerCompare[0].style = "display: none";
-      spinnerCompare[1].style = "display: none";
+      downloadResult();
+      spanUploadFiles.style = "display: block";
+      spinnerUpload[0].style = "display: none";
+      spinnerUpload[1].style = "display: none";
     });
+  e.target.reset();
 });
 
 const downloadResult = async () => {
