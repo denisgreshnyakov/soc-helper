@@ -1,0 +1,46 @@
+.btn-up {
+  /* фиксированное позиционирование */
+  position: fixed;
+  /* цвет фона */
+  background-color: #0d6efd;
+  /* расстояние от правого края окна браузера */
+  right: 50px;
+  /* расстояние от нижнего края окна браузера */
+  bottom: 50px;
+  /* скругление верхнего левого угла */
+
+  /* скругление верхнего правого угла */
+
+  /* вид курсора */
+  cursor: pointer;
+  /* отображение элемента как flex */
+  display: flex;
+  /* выравниваем элементы внутри элемента по центру вдоль поперечной оси */
+  align-items: center;
+  /* выравниваем элементы внутри элемента по центру вдоль главной оси */
+  justify-content: center;
+  /* ширина элемента */
+  width: 40px;
+  /* высота элемента */
+  height: 40px;
+  border-radius: 50%;
+}
+
+.btn-up::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: transparent no-repeat center center;
+  background-size: 100% 100%;
+  background-image: url("../img/chevron-up-solid.svg");
+}
+
+.btn-up_hide {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-up:hover {
+    background-color: #0a58ca; /* цвет заднего фона при наведении */
+  }
+}

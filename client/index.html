@@ -12,10 +12,30 @@
     />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/dots.css" />
+    <link rel="stylesheet" href="css/up.css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <title>Сравнить РСО</title>
   </head>
   <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">SOC-Helper</a>
+
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"
+                >Сравнить файлы РСО</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Информация о сервисе</a>
+            </li>
+          </ul>
+          <span class="navbar-text"> Версия 1.0.0 beta</span>
+        </div>
+      </div>
+    </nav>
     <div class="container">
       <div class="input">
         <h1>Сравнение файлов РСО</h1>
@@ -33,6 +53,7 @@
                   name="userfile"
                   type="file"
                   id="file-request"
+                  required
                 />
               </div>
 
@@ -46,6 +67,7 @@
                   name="userfile"
                   type="file"
                   id="file-answer"
+                  required
                 />
               </div>
             </div>
@@ -70,15 +92,22 @@
         </form>
       </div>
       <div class="result"></div>
+      <div class="btn-up btn-up_hide"></div>
     </div>
-    <!-- <footer class=".bg-secondary text-center text-lg-start">
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-        © 2023 Created by
-        <a class="text-dark" href="https://github.com/denisgreshnyakov"
+    <footer class=".bg-secondary text-center text-lg-start bg-light">
+      <div class="text-center">
+        Разработано
+
+        <a
+          class="text-dark"
+          target="_blank"
+          href="https://github.com/denisgreshnyakov"
           >denisgreshnyakov</a
         >
+
+        , © 2023.
       </div>
-    </footer> -->
+    </footer>
   </body>
   <script src="js/script.js"></script>
 </html>

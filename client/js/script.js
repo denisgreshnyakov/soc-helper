@@ -6,11 +6,29 @@ const spanCompareFiles = document.querySelector(".span-compare-files");
 const spinnerUpload = document.querySelectorAll(".spinner-upload");
 const spinnerCompare = document.querySelectorAll(".spinner-compare");
 
+const resultBlock = document.querySelector(".result");
+const inputBlock = document.querySelector(".input");
+
+const pageHeight = document.documentElement.scrollHeight;
+
 //загрузить и сравнить
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  document.querySelector(".result").innerHTML = `
+  inputBlock.style = `
+      min-height: 70.4vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      position: relative;
+      `;
+
+  resultBlock.style = `
+    position: relative;
+    min-height: 19.45vh;
+  `;
+
+  resultBlock.innerHTML = `
   <div class="spinner">
   <div class="dot dot1"></div>
   <div class="dot dot2"></div>
@@ -42,7 +60,7 @@ form.addEventListener("submit", (e) => {
       console.log("Данные после обработки: ");
       console.log(data);
 
-      document.querySelector(".result").innerHTML = "";
+      resultBlock.innerHTML = "";
 
       const label = document.createElement("div");
       label.classList.add("label");
@@ -50,11 +68,11 @@ form.addEventListener("submit", (e) => {
       <h2>Результат: </h2>
       <span>Количество неотвеченных запросов: ${data.length}</span>
       `;
-      document.querySelector(".result").appendChild(label);
+      resultBlock.appendChild(label);
 
       const table = document.createElement("div");
       table.innerHTML = `<table class="table"></table>`;
-      document.querySelector(".result").appendChild(table);
+      resultBlock.appendChild(table);
 
       let header = document.createElement("tr");
       for (key in data[0]) {
@@ -69,6 +87,24 @@ form.addEventListener("submit", (e) => {
         }
         document.querySelector(".table").appendChild(row);
       });
+      resultBlock.style = `
+      min-height: 19.45vh;
+      margin-bottom: 50px;
+      display: block;
+      `;
+      //фиксим ширину страницы
+
+      let newPageHeight = document.documentElement.scrollHeight;
+      console.log(
+        `текущая ширина ${newPageHeight} старая ширина ${pageHeight}`
+      );
+
+      // if (pageHeight < newPageHeight) {
+      //   document.querySelector(
+      //     "body"
+      //   ).style = `padding: 0 calc(20px - (100vw - 100%))`;
+      // }
+
       downloadResult();
       spanUploadFiles.style = "display: block";
       spinnerUpload[0].style = "display: none";
@@ -96,3 +132,35 @@ const downloadResult = async () => {
     console.log(`Error loading comparison result type: ${e}`);
   }
 };
+
+const btnUp = {
+  el: document.querySelector(".btn-up"),
+  show() {
+    // удалим у кнопки класс btn-up_hide
+    this.el.classList.remove("btn-up_hide");
+  },
+  hide() {
+    // добавим к кнопке класс btn-up_hide
+    this.el.classList.add("btn-up_hide");
+  },
+  addEventListener() {
+    // при прокрутке содержимого страницы
+    window.addEventListener("scroll", () => {
+      // определяем величину прокрутки
+      const scrollY = window.scrollY || document.documentElement.scrollTop;
+      // если страница прокручена больше чем на 400px, то делаем кнопку видимой, иначе скрываем
+      scrollY > 400 ? this.show() : this.hide();
+    });
+    // при нажатии на кнопку .btn-up
+    document.querySelector(".btn-up").onclick = () => {
+      // переместим в начало страницы
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    };
+  },
+};
+
+btnUp.addEventListener();
