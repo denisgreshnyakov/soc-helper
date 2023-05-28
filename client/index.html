@@ -17,56 +17,58 @@
   </head>
   <body>
     <div class="container">
-      <h1>Сравнение файлов РСО</h1>
-      <p>Загрузите ваши файлы и нажмите кнопку "Сравнить":</p>
+      <div class="input">
+        <h1>Сравнение файлов РСО</h1>
+        <p>Загрузите ваши файлы и нажмите кнопку "Сравнить":</p>
 
-      <form name="uploader" enctype="multipart/form-data" method="POST">
-        <div class="form">
-          <div class="input-files">
-            <div class="mb-3">
-              <label for="formFile" class="form-label"
-                >Вложите файл запрос:</label
-              >
-              <input
-                class="form-control"
-                name="userfile"
-                type="file"
-                id="file-request"
-              />
+        <form name="uploader" enctype="multipart/form-data" method="POST">
+          <div class="form">
+            <div class="input-files">
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Вложите файл запрос:</label
+                >
+                <input
+                  class="form-control"
+                  name="userfile"
+                  type="file"
+                  id="file-request"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="formFile" class="form-label"
+                  >Вложите файл ответ:</label
+                >
+
+                <input
+                  class="form-control"
+                  name="userfile"
+                  type="file"
+                  id="file-answer"
+                />
+              </div>
             </div>
 
-            <div class="mb-3">
-              <label for="formFile" class="form-label"
-                >Вложите файл ответ:</label
+            <div class="btn-upload">
+              <button
+                class="btn btn-primary"
+                type="submit"
+                name="submit"
+                id="upload"
               >
-
-              <input
-                class="form-control"
-                name="userfile"
-                type="file"
-                id="file-answer"
-              />
+                <span class="span-upload-files">Сравнить файлы</span>
+                <span
+                  class="spinner-upload spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span class="spinner-upload sr-only">Обработка...</span>
+              </button>
             </div>
           </div>
-
-          <div class="btn-upload">
-            <button
-              class="btn btn-primary"
-              type="submit"
-              name="submit"
-              id="upload"
-            >
-              <span class="span-upload-files">Сравнить файлы</span>
-              <span
-                class="spinner-upload spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-              <span class="spinner-upload sr-only">Обработка...</span>
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
       <div class="result"></div>
     </div>
     <!-- <footer class=".bg-secondary text-center text-lg-start">

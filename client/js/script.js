@@ -32,7 +32,8 @@ form.addEventListener("submit", (e) => {
 
   console.log(...formData);
 
-  fetch("http://192.168.1.27:80/uploads", {
+  //http://192.168.1.27:80/uploads
+  fetch("http://localhost:5000/uploads", {
     method: "POST",
     body: formData,
   })
@@ -78,7 +79,7 @@ form.addEventListener("submit", (e) => {
 
 const downloadResult = async () => {
   try {
-    const response = await fetch("http://192.168.1.27:80/uploads");
+    const response = await fetch("http://localhost:5000/uploads");
     if (response.status === 200) {
       const blob = await response.blob();
       const downloadUrl = window.URL.createObjectURL(blob);

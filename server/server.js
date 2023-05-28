@@ -52,18 +52,6 @@ app.post("/uploads", uploads.array("files"), (req, res) => {
   return processFiles(res);
 });
 
-// //compare files
-// app.post("/", (req, res) => {
-//   try {
-//     const result = compare(filename);
-//     filename.splice(0, filename.length);
-//     res.json(result);
-//   } catch (e) {
-//     console.log("comparing files error: " + e);
-//     res.status(500).json({ message: "comparing files error " });
-//   }
-// });
-
 const processFiles = (res) => {
   try {
     const result = compare(filename);
@@ -101,6 +89,10 @@ app.get("/uploads", (req, res) => {
   }
 });
 
-app.listen(80, "192.168.1.27", () => {
+app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
+
+// app.listen(80, "192.168.1.27", () => {
+//   console.log("Server running on port 5000");
+// });
