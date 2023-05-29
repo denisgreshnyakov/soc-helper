@@ -51,7 +51,7 @@ form.addEventListener("submit", (e) => {
   console.log(...formData);
 
   //http://192.168.1.27:80/uploads
-  fetch("http://localhost:5000/uploads", {
+  fetch("http://192.168.1.27:80/uploads", {
     method: "POST",
     body: formData,
   })
@@ -115,7 +115,7 @@ form.addEventListener("submit", (e) => {
 
 const downloadResult = async () => {
   try {
-    const response = await fetch("http://localhost:5000/uploads");
+    const response = await fetch("http://192.168.1.27:80/uploads");
     if (response.status === 200) {
       const blob = await response.blob();
       const downloadUrl = window.URL.createObjectURL(blob);
@@ -154,11 +154,12 @@ const btnUp = {
     // при нажатии на кнопку .btn-up
     document.querySelector(".btn-up").onclick = () => {
       // переместим в начало страницы
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
+      setTimeout(function () {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 300);
     };
   },
 };

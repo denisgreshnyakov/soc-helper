@@ -20,7 +20,7 @@ let staticSiteOptions = {
 
 app
   .use(cors())
-  .use(express.static(path.join(__dirname, "../client"), staticSiteOptions));
+  .use(express.static(path.join(__dirname, "../client/"), staticSiteOptions));
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
@@ -89,7 +89,7 @@ app.get("/uploads", (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(80, "192.168.1.27", () => {
   console.log("Server running on port 5000");
 });
 

@@ -3,6 +3,7 @@ html {
   margin: 0;
   padding: 0;
   border: 0;
+  
 }
 
 html {
@@ -15,15 +16,18 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
+  position: relative;
   background-color: rgb(255, 255, 255);
   /* padding: 0 calc(20px - (100vw - 100%)) 0 0; */
 }
 
 nav {
+  position: absolute;
+  top: 0;
   display: block;
-  position: relative;
-  z-index: 1;
+  width: 100%;
+  z-index: 10;
+  
 }
 
 .navbar-brand {
@@ -31,13 +35,15 @@ nav {
 }
 
 .container-fluid {
-  padding: 0 100px 0 100px;
+  margin: 0 100px;
+  padding: 0 calc(20px - (100vw - 100%)) 0 0;
 }
 
 .container {
   width: 1200px;
   margin: 0 auto;
   z-index: 0;
+  padding: 0 calc(20px - (100vw - 100%)) 0 0;
 }
 
 .input {
@@ -95,6 +101,7 @@ footer {
   align-items: center;
   justify-content: center;
   height: 5vh;
+  padding: 0 calc(20px - (100vw - 100%)) 0 0;
 }
 
 .icon {
@@ -162,4 +169,8 @@ footer {
   to {
     opacity: 1;
   }
+}
+
+.about {
+  margin-top: 100px;
 }
