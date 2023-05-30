@@ -56,43 +56,59 @@ window.addEventListener("DOMContentLoaded", () => {
         console.log("Данные после обработки: ");
         console.log(data);
 
-        resultBlock.innerHTML = "";
+        if (data.hasOwnProperty("error")) {
+          console.log("Выполняется блок ошибки");
+          resultBlock.innerHTML = "";
 
-        const label = document.createElement("div");
-        label.classList.add("label");
-        label.innerHTML = `
-      <h2>Результат: </h2>
-      <span>Количество неотвеченных запросов: ${data.length}</span>
-      `;
-        resultBlock.appendChild(label);
+          const label = document.createElement("div");
+          label.classList.add("label");
+          label.innerHTML = `
+        <h2>Результат: </h2>
+        <span>${data.message}</span>
+        `;
+          resultBlock.appendChild(label);
+          spanUploadFiles.style = "display: block";
+          spinnerUpload[0].style = "display: none";
+          spinnerUpload[1].style = "display: none";
+        } else {
+          resultBlock.innerHTML = "";
 
-        const table = document.createElement("div");
-        table.innerHTML = `<table class="table"></table>`;
-        resultBlock.appendChild(table);
+          const label = document.createElement("div");
+          label.classList.add("label");
+          label.innerHTML = `
+        <h2>Результат: </h2>
+        <span>Количество неотвеченных запросов: ${data.length}</span>
+        `;
+          resultBlock.appendChild(label);
 
-        let header = document.createElement("tr");
-        for (key in data[0]) {
-          header.innerHTML += `<th>${key}</th>`;
-        }
-        document.querySelector(".table").appendChild(header);
+          const table = document.createElement("div");
+          table.innerHTML = `<table class="table"></table>`;
+          resultBlock.appendChild(table);
 
-        data.forEach((elem, i) => {
-          let row = document.createElement("tr");
-          for (key in elem) {
-            row.innerHTML += `<td>${elem[key]}</td>`;
+          let header = document.createElement("tr");
+          for (key in data[0]) {
+            header.innerHTML += `<th>${key}</th>`;
           }
-          document.querySelector(".table").appendChild(row);
-        });
-        resultBlock.style = `
-      min-height: 19.45vh;
-      margin-bottom: 50px;
-      display: block;
-      `;
+          document.querySelector(".table").appendChild(header);
 
-        downloadResult();
-        spanUploadFiles.style = "display: block";
-        spinnerUpload[0].style = "display: none";
-        spinnerUpload[1].style = "display: none";
+          data.forEach((elem, i) => {
+            let row = document.createElement("tr");
+            for (key in elem) {
+              row.innerHTML += `<td>${elem[key]}</td>`;
+            }
+            document.querySelector(".table").appendChild(row);
+          });
+          resultBlock.style = `
+            min-height: 19.45vh;
+            margin-bottom: 50px;
+            display: block;
+        `;
+
+          downloadResult();
+          spanUploadFiles.style = "display: block";
+          spinnerUpload[0].style = "display: none";
+          spinnerUpload[1].style = "display: none";
+        }
       });
     e.target.reset();
   });

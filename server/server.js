@@ -55,11 +55,19 @@ app.post("/uploads", uploads.array("files"), (req, res) => {
 const processFiles = (res) => {
   try {
     const result = compare(filename);
+    if (result.hasOwnProperty("error")) {
+      console.log("this branch executed");
+      const e = new Error(result.error);
+      filename.splice(0, filename.length);
+      throw e;
+    }
     filename.splice(0, filename.length);
     return res.json(result);
   } catch (e) {
     console.log("Ошибка при сравнении файлов: " + e);
-    return res.status(500).json({ message: "Ошибка при сравнении файлов " });
+    return res
+      .status(500)
+      .json({ message: "Ошибка при сравнении файлов " + e, error: true });
   }
 };
 
