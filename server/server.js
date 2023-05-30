@@ -42,12 +42,12 @@ const uploads = multer({ storage: storage });
 //upload files
 app.post("/uploads", uploads.array("files"), (req, res) => {
   try {
-    console.log("files have been uploaded to the server");
+    console.log("Файлы успешно загружены на сервер");
     console.log(filename);
     // res.json({ message: "Файлы успешно загружены на сервер." });
   } catch (e) {
-    console.log("upload files error: " + e);
-    res.status(500).json({ message: "upload files error " });
+    console.log("Ошибка при загрузке файла на сервер: " + e);
+    res.status(500).json({ message: "Ошибка при загрузке файла на сервер " });
   }
   return processFiles(res);
 });
@@ -58,8 +58,8 @@ const processFiles = (res) => {
     filename.splice(0, filename.length);
     return res.json(result);
   } catch (e) {
-    console.log("comparing files error: " + e);
-    return res.status(500).json({ message: "comparing files error " });
+    console.log("Ошибка при сравнении файлов: " + e);
+    return res.status(500).json({ message: "Ошибка при сравнении файлов " });
   }
 };
 
@@ -67,30 +67,36 @@ const processFiles = (res) => {
 app.get("/uploads", (req, res) => {
   try {
     if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
-      console.log("file exist! Sending");
+      console.log("Файл с результатом найден! Отправка");
       return res.download(
         __dirname + "/uploads/result.xlsx",
         "result.xlsx",
         (err) => {
           fs.unlink(__dirname + "/uploads/" + "result.xlsx", (err) => {
             if (err) throw err;
-            console.log("file result.xlsx has been deleted");
+            console.log(
+              "Файл с результатом был удален из временной директории"
+            );
           });
           if (err) {
-            console.log("error sending data to client, type: " + err);
+            console.log(
+              "Ошибка при отправке файла с результатом на клиент: " + err
+            );
           }
         }
       );
     }
-    return res.status(400).json({ message: "Download error" });
+    return res.status(400).json({ message: "Ошибка загрузки файла на клиент" });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Internal Server Error (Download error)" });
+    res.status(500).json({
+      message: "Internal Server Error (Ошибка загрузки файла на клиент)",
+    });
   }
 });
 
 app.listen(80, "192.168.1.27", () => {
-  console.log("Server running on port 5000");
+  console.log("SOC-Helper начал работу");
 });
 
 // app.listen(80, "192.168.1.27", () => {
