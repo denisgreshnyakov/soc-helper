@@ -34,6 +34,7 @@ const propList = [
   "DOLYA",
   "PL_OBSH",
   "PL_OTAP",
+  "KOL_MANS",
   "KOL_MANV",
   "YEAR_S",
   "MONTH_S",
@@ -68,17 +69,22 @@ const compare = (filename) => {
       console.log("Чтение " + i + " файла: " + elem);
       const workbook = XLSX.readFile(__dirname + "/uploads/" + elem);
 
-      let workssheet = workbook.Sheets[workbook.SheetNames[0]];
+      const workssheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      let workssheetJSON = XLSX.utils.sheet_to_json(workssheet, {
+      const workssheetJSON = XLSX.utils.sheet_to_json(workssheet);
+      const workssheetHeaders = XLSX.utils.sheet_to_json(workssheet, {
+        header: 1,
         blankrows: true,
       });
-      // let propList = XLSX.utils.sheet_to_json(workssheet, { header: 1 });
 
       console.log("Выполняется проверка наличия всех столбцов");
       for (prop of propList) {
-        if (!workssheetJSON[0].hasOwnProperty(prop)) {
-          console.log(workssheetJSON[0].length);
+        if (!workssheetHeaders[0].includes(prop)) {
+          if (workssheetHeaders[0].includes("COMMENT") && prop === "Comment") {
+            continue;
+          }
+          console.log(workssheetHeaders[0]);
+          console.log(workssheetHeaders[0].length);
           console.log(`Отсутствует столбец ${prop} в файле ${elem}`);
           const err = new Error(`Отсутствует столбец ${prop} в файле ${elem}`);
           throw err;
