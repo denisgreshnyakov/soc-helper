@@ -103,8 +103,6 @@ const compare = (filename) => {
     console.log("Запуск сравнения");
 
     for (let j = 0; j < data[1].length; j++) {
-      // console.log(typeof data[1][j].NNN);
-      // console.log(data[1][j].NNN);
       NNN.push(Number(data[1][j].NNN));
     }
 

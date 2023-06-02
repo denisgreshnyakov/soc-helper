@@ -7,44 +7,23 @@ window.addEventListener("DOMContentLoaded", () => {
   const resultBlock = document.querySelector(".result");
   const inputBlock = document.querySelector(".input");
 
+  const fileReq = document.getElementById("file-request");
+  const fileAn = document.getElementById("file-answer");
+
   //загрузить и сравнить
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    inputBlock.style = `
-      min-height: 70.4vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: end;
-      position: relative;
-      `;
-
-    resultBlock.style = `
-      position: relative;
-      min-height: 19.45vh;
-  `;
-
-    resultBlock.innerHTML = `
-      <div class="spinner">
-      <div class="dot dot1"></div>
-      <div class="dot dot2"></div>
-      <div class="dot dot3"></div>
-      <div class="dot dot4"></div>
-      </div>
-  `;
+    fixHeight();
 
     spanUploadFiles.style = "display: none";
     spinnerUpload[0].style = "display: inline-block";
     spinnerUpload[1].style = "display: inline-block";
 
-    const fileReq = document.getElementById("file-request");
-    const fileAn = document.getElementById("file-answer");
     const formData = new FormData();
 
     formData.append("files", fileReq.files[0]);
     formData.append("files", fileAn.files[0]);
-
-    console.log(...formData);
 
     //http://192.168.1.27:80/uploads
     fetch("http://192.168.1.27:80/uploads", {
@@ -57,58 +36,18 @@ window.addEventListener("DOMContentLoaded", () => {
         console.log(data);
 
         if (data.hasOwnProperty("error")) {
-          console.log("Выполняется блок ошибки");
-          resultBlock.innerHTML = "";
-
-          const label = document.createElement("div");
-          label.classList.add("label");
-          label.innerHTML = `
-        <h2>Результат: </h2>
-        <span>${data.message}</span>
-        `;
-          resultBlock.appendChild(label);
-          spanUploadFiles.style = "display: block";
-          spinnerUpload[0].style = "display: none";
-          spinnerUpload[1].style = "display: none";
+          showResult(data.message);
         } else {
-          resultBlock.innerHTML = "";
+          showResult(`Количество неотвеченных запросов: ${data.length}`);
 
-          const label = document.createElement("div");
-          label.classList.add("label");
-          label.innerHTML = `
-        <h2>Результат: </h2>
-        <span>Количество неотвеченных запросов: ${data.length}</span>
-        `;
-          resultBlock.appendChild(label);
-
-          const table = document.createElement("div");
-          table.innerHTML = `<table class="table"></table>`;
-          resultBlock.appendChild(table);
-
-          let header = document.createElement("tr");
-          for (key in data[0]) {
-            header.innerHTML += `<th>${key}</th>`;
+          if (data.length > 0) {
+            showTable(data);
+            downloadResult();
           }
-          document.querySelector(".table").appendChild(header);
-
-          data.forEach((elem, i) => {
-            let row = document.createElement("tr");
-            for (key in elem) {
-              row.innerHTML += `<td>${elem[key]}</td>`;
-            }
-            document.querySelector(".table").appendChild(row);
-          });
-          resultBlock.style = `
-            min-height: 19.45vh;
-            margin-bottom: 50px;
-            display: block;
-        `;
-
-          downloadResult();
-          spanUploadFiles.style = "display: block";
-          spinnerUpload[0].style = "display: none";
-          spinnerUpload[1].style = "display: none";
         }
+      })
+      .catch((err) => {
+        showResult(`Ошибка клиента при отправке файлов на сервер. ${err}`);
       });
     e.target.reset();
   });
@@ -125,12 +64,79 @@ window.addEventListener("DOMContentLoaded", () => {
         document.body.append(link);
         link.click();
         link.remove();
-      } else {
-        console.log(`File upload error: ${response.status}`);
+      } else if (response.status === 500) {
+        showResult(`Ошибка отправки файла на клиент: ${response.status}`);
       }
     } catch (e) {
-      console.log(`Error loading comparison result type: ${e}`);
+      showResult(
+        `Ошибка клиента при попытке загрузить файл результата сравнения. ${e}`
+      );
     }
+  };
+
+  const showResult = (message) => {
+    resultBlock.innerHTML = "";
+    resultBlock.style = "min-height: 24.45vh;";
+
+    const label = document.createElement("div");
+    label.classList.add("label");
+    label.innerHTML = `
+        <h2>Результат: </h2>
+        <span>${message}</span>
+        `;
+    resultBlock.appendChild(label);
+    spanUploadFiles.style = "display: block";
+    spinnerUpload[0].style = "display: none";
+    spinnerUpload[1].style = "display: none";
+  };
+
+  const showTable = (data) => {
+    const table = document.createElement("div");
+    table.innerHTML = `<table class="table"></table>`;
+    resultBlock.appendChild(table);
+
+    let header = document.createElement("tr");
+    for (key in data[0]) {
+      header.innerHTML += `<th>${key}</th>`;
+    }
+    document.querySelector(".table").appendChild(header);
+
+    data.forEach((elem, i) => {
+      let row = document.createElement("tr");
+      for (key in elem) {
+        row.innerHTML += `<td>${elem[key]}</td>`;
+      }
+      document.querySelector(".table").appendChild(row);
+    });
+    resultBlock.style = `
+      min-height: 19.45vh;
+      margin-bottom: 50px;
+      display: block;
+  `;
+  };
+
+  const fixHeight = () => {
+    inputBlock.style = `
+    min-height: 70.4vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    position: relative;
+    `;
+
+    resultBlock.style = `
+    position: relative;
+    min-height: 19.45vh;
+`;
+
+    resultBlock.innerHTML = `
+    <div class="spinner">
+    <div class="dot dot1"></div>
+    <div class="dot dot2"></div>
+    <div class="dot dot3"></div>
+    <div class="dot dot4"></div>
+    </div>
+`;
   };
 
   const btnUp = {

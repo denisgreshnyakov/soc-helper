@@ -55,14 +55,14 @@ app.post("/uploads", uploads.array("files"), (req, res) => {
 const processFiles = (res) => {
   try {
     const result = compare(filename);
+
     if (result.hasOwnProperty("error")) {
-      console.log("this branch executed");
-      const e = new Error(result.error);
       filename.splice(0, filename.length);
-      throw e;
+      return res.status(500).json({ message: "" + result.error, error: true });
     }
+
     filename.splice(0, filename.length);
-    return res.json(result);
+    return res.status(200).json(result);
   } catch (e) {
     console.log("Ошибка при сравнении файлов: " + e);
     return res
@@ -98,7 +98,7 @@ app.get("/uploads", (req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).json({
-      message: "Internal Server Error (Ошибка загрузки файла на клиент)",
+      message: "Internal Server Error (Ошибка отправки файла на клиент)",
     });
   }
 });
