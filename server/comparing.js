@@ -83,9 +83,7 @@ const compare = (filename) => {
           if (workssheetHeaders[0].includes("COMMENT") && prop === "Comment") {
             continue;
           }
-          console.log(workssheetHeaders[0]);
-          console.log(workssheetHeaders[0].length);
-          console.log(`Отсутствует столбец ${prop} в файле ${elem}`);
+
           const err = new Error(`Отсутствует столбец ${prop} в файле ${elem}`);
           throw err;
         }
@@ -93,11 +91,6 @@ const compare = (filename) => {
       console.log("Все столбцы найдены");
 
       data.push(workssheetJSON);
-
-      fs.unlink(__dirname + "/uploads/" + elem, (err) => {
-        if (err) throw err;
-        console.log("Файл " + elem + " был удален из временной директории");
-      });
     });
 
     console.log("Запуск сравнения");
@@ -112,26 +105,32 @@ const compare = (filename) => {
       }
     }
 
-    const workSheet = XLSX.utils.json_to_sheet(result);
-    const workBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workBook, workSheet, "Отсутствуют ответы");
-    XLSX.writeFile(workBook, __dirname + "/uploads/result.xlsx");
+    if (result.length !== 0) {
+      const workSheet = XLSX.utils.json_to_sheet(result);
+      const workBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workBook, workSheet, "Отсутствуют ответы");
+      XLSX.writeFile(workBook, __dirname + "/uploads/result.xlsx");
+    }
 
     console.log("Сравнение завершено");
 
     return result;
   } catch (e) {
-    filename.forEach((elem, i) => {
-      if (fs.existsSync(`${__dirname}/uploads/${elem}`)) {
-        fs.unlink(__dirname + "/uploads/" + elem, (err) => {
-          if (err) throw err;
-          console.log("Файл " + elem + " был удален из временной директории");
-        });
-      }
-    });
     return {
       error: e,
     };
+  } finally {
+    filename.forEach((elem, i) => {
+      if (fs.existsSync(`${__dirname}/uploads/${elem}`)) {
+        fs.unlink(__dirname + "/uploads/" + elem, (e) => {
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Файл " + elem + " был удален из временной директории");
+          }
+        });
+      }
+    });
   }
 };
 

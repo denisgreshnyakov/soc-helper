@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/up.css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="stylesheet" href="css/media.css" type="text/css" />
-    <title>Сравнить РСО</title>
+    <title>Объединить РСО</title>
   </head>
   <body>
     <!-- position-absolute / fixed-top-->
@@ -28,10 +28,18 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
-                class="nav-link active"
+                class="nav-link"
                 aria-current="page"
                 href="http://192.168.0.103/index.html"
                 >Сравнить файлы РСО</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="http://192.168.0.103/index.html"
+                >Объединить файлы РСО</a
               >
             </li>
             <li class="nav-item">
@@ -62,36 +70,21 @@
 
     <div class="container">
       <div class="input">
-        <h1>Сравнение файлов РСО</h1>
-        <p>Загрузите ваши файлы и нажмите кнопку "Сравнить":</p>
+        <h1>Объединение файлов РСО</h1>
+        <p>Загрузите ваши файлы и нажмите кнопку "Объединить":</p>
 
         <form name="uploader" enctype="multipart/form-data" method="POST">
           <div class="form">
             <div class="input-files">
               <div class="mb-3">
-                <label for="formFile" class="form-label"
-                  >Вложите файл запрос:</label
-                >
+                <label for="formFile" class="form-label">Вложите файлы:</label>
                 <input
                   class="form-control"
                   name="userfile"
                   type="file"
                   id="file-request"
                   required
-                />
-              </div>
-
-              <div class="mb-3">
-                <label for="formFile" class="form-label"
-                  >Вложите файл ответ:</label
-                >
-
-                <input
-                  class="form-control"
-                  name="userfile"
-                  type="file"
-                  id="file-answer"
-                  required
+                  multiple
                 />
               </div>
             </div>
@@ -103,7 +96,7 @@
                 name="submit"
                 id="upload"
               >
-                <span class="span-upload-files">Сравнить файлы</span>
+                <span class="span-upload-files">Объединить файлы</span>
                 <span
                   class="spinner-upload spinner-border spinner-border-sm"
                   role="status"
@@ -133,7 +126,6 @@
     </footer>
     <div class="btn-up btn-up_hide"></div>
   </body>
-  <script src="js/compare.js"></script>
-  <script src="js/up.js"></script>
+  <script src="js/join.js"></script>
   <script defer src="js/bootstrap.min.js"></script>
 </html>

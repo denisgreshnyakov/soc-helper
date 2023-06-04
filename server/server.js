@@ -18,10 +18,6 @@ let staticSiteOptions = {
   maxAge: 1000 * 60 * 15, // хранить страницы в кэше пятнадцать минут
 };
 
-app
-  .use(cors())
-  .use(express.static(path.join(__dirname, "../client/"), staticSiteOptions));
-
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, __dirname + "/uploads");
@@ -39,18 +35,11 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage: storage });
 
-//upload files
-app.post("/uploads", uploads.array("files"), (req, res) => {
-  try {
-    console.log("Файлы успешно загружены на сервер");
-    console.log(filename);
-    // res.json({ message: "Файлы успешно загружены на сервер." });
-  } catch (e) {
-    console.log("Ошибка при загрузке файла на сервер: " + e);
-    res.status(500).json({ message: "Ошибка при загрузке файла на сервер " });
-  }
+const postCompareHandler = (req, res) => {
+  console.log("Файлы успешно загружены на сервер");
+  console.log(filename);
   return processFiles(res);
-});
+};
 
 const processFiles = (res) => {
   try {
@@ -58,52 +47,58 @@ const processFiles = (res) => {
 
     if (result.hasOwnProperty("error")) {
       filename.splice(0, filename.length);
-      return res.status(500).json({ message: "" + result.error, error: true });
+      const e = result.error;
+      throw e;
     }
 
     filename.splice(0, filename.length);
     return res.status(200).json(result);
   } catch (e) {
-    console.log("Ошибка при сравнении файлов: " + e);
-    return res
-      .status(500)
-      .json({ message: "Ошибка при сравнении файлов " + e, error: true });
+    console.log(e.message);
+    return res.status(500).json({
+      message: e.message,
+      error: true,
+    });
   }
 };
 
-//download
-app.get("/uploads", (req, res) => {
-  try {
-    if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
-      console.log("Файл с результатом найден! Отправка");
-      return res.download(
-        __dirname + "/uploads/result.xlsx",
-        "result.xlsx",
-        (err) => {
-          fs.unlink(__dirname + "/uploads/" + "result.xlsx", (err) => {
-            if (err) throw err;
+const postDownloadHandler = (req, res) => {
+  if (fs.existsSync(__dirname + "/uploads/result.xlsx")) {
+    console.log("Отправка файла с результатом...");
+    return res.download(
+      __dirname + "/uploads/result.xlsx",
+      "result.xlsx",
+      (errDownload) => {
+        fs.unlink(__dirname + "/uploads/" + "result.xlsx", (errDelete) => {
+          if (errDelete) {
+            console.log(errDelete.message);
+          } else {
             console.log(
-              "Файл с результатом был удален из временной директории"
-            );
-          });
-          if (err) {
-            console.log(
-              "Ошибка при отправке файла с результатом на клиент: " + err
+              "Файл с результатом был удален из временной директории сервера"
             );
           }
+        });
+        if (errDownload) {
+          console.log(errDownload.message);
+        } else {
+          console.log("Файл c результатом был успешно отправлен на клиент");
         }
-      );
-    }
-    return res.status(400).json({ message: "Ошибка загрузки файла на клиент" });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({
-      message: "Internal Server Error (Ошибка отправки файла на клиент)",
-    });
+      }
+    );
   }
-});
+  return res.status(500).json({ message: "Ошибка загрузки файла на клиент" });
+};
 
-app.listen(80, "192.168.1.27", () => {
+app
+  .use(cors())
+  .use(express.static(path.join(__dirname, "../client/"), staticSiteOptions));
+
+//upload files
+app.post("/", uploads.array("files"), postCompareHandler);
+//download to client
+app.get("/uploads", postDownloadHandler);
+
+app.listen(80, "192.168.0.103", () => {
   console.log("SOC-Helper начал работу");
 });
 

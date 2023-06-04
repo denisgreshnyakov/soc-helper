@@ -3,7 +3,6 @@ html {
   margin: 0;
   padding: 0;
   border: 0;
-  
 }
 
 html {
@@ -27,7 +26,6 @@ nav {
   display: block;
   width: 100%;
   z-index: 10;
-  
 }
 
 .navbar-brand {
@@ -41,16 +39,19 @@ nav {
 
 .container {
   width: 1200px;
+  min-height: calc(100vh - 5vh);
+  /* min-height: calc(100vh - 80px); */
   margin: 0 auto;
   z-index: 0;
-  padding: 0 calc(20px - (100vw - 100%)) 0 0;
+  padding: 5vh calc(20px - (100vw - 100%)) 5vh 0;
 }
 
 .input {
-  min-height: 95vh;
+  /* min-height: 95vh; */
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   position: relative;
 }
 
@@ -141,7 +142,9 @@ footer {
 
 .result {
   position: relative;
+  min-height: calc(100vh - 65vh - 21vh);
 }
+
 .table {
   display: block;
   width: 100%;
@@ -172,7 +175,9 @@ footer {
 }
 
 .about {
-  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h4 {

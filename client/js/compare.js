@@ -5,20 +5,21 @@ window.addEventListener("DOMContentLoaded", () => {
   const spinnerUpload = document.querySelectorAll(".spinner-upload");
 
   const resultBlock = document.querySelector(".result");
-  const inputBlock = document.querySelector(".input");
 
   const fileReq = document.getElementById("file-request");
   const fileAn = document.getElementById("file-answer");
+
+  let forResultName = {
+    POSTAV: "",
+    MONTH_S: "",
+    YEAR_S: "",
+  };
 
   //загрузить и сравнить
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    fixHeight();
-
-    spanUploadFiles.style = "display: none";
-    spinnerUpload[0].style = "display: inline-block";
-    spinnerUpload[1].style = "display: inline-block";
+    animationDownload();
 
     const formData = new FormData();
 
@@ -26,15 +27,12 @@ window.addEventListener("DOMContentLoaded", () => {
     formData.append("files", fileAn.files[0]);
 
     //http://192.168.1.27:80/uploads
-    fetch("http://192.168.1.27:80/uploads", {
+    fetch("http://192.168.0.103:80/", {
       method: "POST",
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Данные после обработки: ");
-        console.log(data);
-
         if (data.hasOwnProperty("error")) {
           showResult(data.message);
         } else {
@@ -42,30 +40,32 @@ window.addEventListener("DOMContentLoaded", () => {
 
           if (data.length > 0) {
             showTable(data);
-            downloadResult();
+            downloadResult(forResultName);
           }
         }
       })
       .catch((err) => {
-        showResult(`Ошибка клиента при отправке файлов на сервер. ${err}`);
+        showResult(`Ошибка при отправке файлов на сервер. ${err}`);
       });
     e.target.reset();
   });
 
-  const downloadResult = async () => {
+  const downloadResult = async (forResultName) => {
     try {
-      const response = await fetch("http://192.168.1.27:80/uploads");
+      const response = await fetch("http://192.168.0.103:80/uploads");
       if (response.status === 200) {
         const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.download = "result.xlsx";
+        link.download = `Результат_сравнения_${forResultName.POSTAV}_${forResultName.MONTH_S}_${forResultName.YEAR_S}.xlsx`;
         document.body.append(link);
         link.click();
         link.remove();
       } else if (response.status === 500) {
-        showResult(`Ошибка отправки файла на клиент: ${response.status}`);
+        showResult(
+          `Ошибка сервера при отправке файла на клиент: ${response.status}`
+        );
       }
     } catch (e) {
       showResult(
@@ -74,9 +74,23 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const animationDownload = () => {
+    resultBlock.innerHTML = `
+    <div class="spinner">
+    <div class="dot dot1"></div>
+    <div class="dot dot2"></div>
+    <div class="dot dot3"></div>
+    <div class="dot dot4"></div>
+    </div>
+`;
+
+    spanUploadFiles.style = "display: none";
+    spinnerUpload[0].style = "display: inline-block";
+    spinnerUpload[1].style = "display: inline-block";
+  };
+
   const showResult = (message) => {
     resultBlock.innerHTML = "";
-    resultBlock.style = "min-height: 24.45vh;";
 
     const label = document.createElement("div");
     label.classList.add("label");
@@ -91,6 +105,10 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   const showTable = (data) => {
+    forResultName.POSTAV = data[0]["POSTAV"];
+    forResultName.MONTH_S = data[0]["MONTH_S"];
+    forResultName.YEAR_S = data[0]["YEAR_S"];
+
     const table = document.createElement("div");
     table.innerHTML = `<table class="table"></table>`;
     resultBlock.appendChild(table);
@@ -108,68 +126,5 @@ window.addEventListener("DOMContentLoaded", () => {
       }
       document.querySelector(".table").appendChild(row);
     });
-    resultBlock.style = `
-      min-height: 19.45vh;
-      margin-bottom: 50px;
-      display: block;
-  `;
   };
-
-  const fixHeight = () => {
-    inputBlock.style = `
-    min-height: 70.4vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    position: relative;
-    `;
-
-    resultBlock.style = `
-    position: relative;
-    min-height: 19.45vh;
-`;
-
-    resultBlock.innerHTML = `
-    <div class="spinner">
-    <div class="dot dot1"></div>
-    <div class="dot dot2"></div>
-    <div class="dot dot3"></div>
-    <div class="dot dot4"></div>
-    </div>
-`;
-  };
-
-  const btnUp = {
-    el: document.querySelector(".btn-up"),
-    show() {
-      // удалим у кнопки класс btn-up_hide
-      this.el.classList.remove("btn-up_hide");
-    },
-    hide() {
-      // добавим к кнопке класс btn-up_hide
-      this.el.classList.add("btn-up_hide");
-    },
-    addEventListener() {
-      // при прокрутке содержимого страницы
-      window.addEventListener("scroll", () => {
-        // определяем величину прокрутки
-        const scrollY = window.scrollY || document.documentElement.scrollTop;
-        // если страница прокручена больше чем на 400px, то делаем кнопку видимой, иначе скрываем
-        scrollY > 400 ? this.show() : this.hide();
-      });
-      // при нажатии на кнопку .btn-up
-      document.querySelector(".btn-up").onclick = () => {
-        // переместим в начало страницы
-        setTimeout(function () {
-          window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: "smooth",
-          });
-        }, 300);
-      };
-    },
-  };
-
-  btnUp.addEventListener();
 });

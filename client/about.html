@@ -7,14 +7,15 @@
 
     <link
       type="image/x-icon"
-      href="img/scale-unbalanced-solid.svg"
+      href="../img/scale-unbalanced-solid.svg"
       rel="shortcut icon"
     />
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../css/dots.css" />
-    <link rel="stylesheet" href="../css/up.css" />
-    <link rel="stylesheet" href="../css/style.css" type="text/css" />
-    <title>Сравнить РСО</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/dots.css" />
+    <link rel="stylesheet" href="css/up.css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/media.css" type="text/css" />
+    <title>Информация о сервисе</title>
   </head>
   <body>
     <!-- position-absolute / fixed-top-->
@@ -22,15 +23,14 @@
       class="navbar navbar-expand-lg navbar-light bg-light position-absolute"
     >
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">SOC-Helper</a>
-
-        <div class="collapse navbar-collapse" id="navbarText">
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+          <a class="navbar-brand" href="#">SOC-Helper</a>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a
-                class="nav-link "
+                class="nav-link"
                 aria-current="page"
-                href="http://192.168.1.27/index.html"
+                href="http://192.168.0.103/index.html"
                 >Сравнить файлы РСО</a
               >
             </li>
@@ -38,7 +38,7 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="http://192.168.1.27/pages/about.html"
+                href="http://192.168.0.103/about.html"
                 >Информация о сервисе</a
               >
             </li>
@@ -46,10 +46,21 @@
 
           <span class="navbar-text"> Версия 1.0.0 beta</span>
         </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
       </div>
     </nav>
 
-    <div class="container input">
+    <div class="container about">
       <h1>Информация о сервисе</h1>
 
       <h4>Зачем это все?</h4>
@@ -97,5 +108,6 @@
     </footer>
     <div class="btn-up btn-up_hide"></div>
   </body>
-  <script src="../js/script.js"></script>
+  <script src="js/up.js"></script>
+  <script defer src="js/bootstrap.min.js"></script>
 </html>
