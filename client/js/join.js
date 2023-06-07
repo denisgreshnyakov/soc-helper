@@ -14,17 +14,18 @@ window.addEventListener("DOMContentLoaded", () => {
 
     animationDownload();
 
+    const formData = new FormData();
+
+    formData.append("files", fileReq.files[0]);
+
     //http://192.168.1.27:80/uploads
-    fetch("http://192.168.0.103:80/join", {
+    fetch("http://192.168.0.103:80/", {
       method: "POST",
-      body: JSON.stringify({
-        yes: "yes",
-      }),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        resultBlock.innerHTML = "";
-        console.log(data);
+        showResult(data.join);
       })
       .catch((err) => {
         showResult(`Ошибка клиента при отправке файлов на сервер. ${err}`);
@@ -41,5 +42,20 @@ window.addEventListener("DOMContentLoaded", () => {
     <div class="dot dot4"></div>
     </div>
 `;
+  };
+
+  const showResult = (message) => {
+    resultBlock.innerHTML = "";
+
+    const label = document.createElement("div");
+    label.classList.add("label");
+    label.innerHTML = `
+        <h2>Результат: </h2>
+        <span>${message}</span>
+        `;
+    resultBlock.appendChild(label);
+    spanUploadFiles.style = "display: block";
+    spinnerUpload[0].style = "display: none";
+    spinnerUpload[1].style = "display: none";
   };
 });

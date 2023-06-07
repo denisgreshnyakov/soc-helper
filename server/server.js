@@ -7,6 +7,7 @@ const multer = require("multer");
 const cors = require("cors");
 
 const compare = require("./comparing");
+const join = require("./joining");
 
 const app = express();
 const router = express.Router();
@@ -38,10 +39,20 @@ const uploads = multer({ storage: storage });
 const postCompareHandler = (req, res) => {
   console.log("Файлы успешно загружены на сервер");
   console.log(filename);
-  return processFiles(res);
+  if (filename.length === 2) {
+    return compareFiles(res);
+  } else if (filename.length === 1) {
+    return joinFiles(res);
+  }
 };
 
-const processFiles = (res) => {
+const joinFiles = (res) => {
+  join(filename);
+  filename.splice(0, filename.length);
+  return res.status(200).json({ join: "all join" });
+};
+
+const compareFiles = (res) => {
   try {
     const result = compare(filename);
 
