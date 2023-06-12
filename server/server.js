@@ -38,7 +38,6 @@ const uploads = multer({ storage: storage });
 
 const postCompareHandler = (req, res) => {
   console.log("Файлы успешно загружены на сервер");
-  console.log(filename);
   if (filename.length === 2) {
     return compareFiles(res);
   } else if (filename.length === 1) {
@@ -46,10 +45,12 @@ const postCompareHandler = (req, res) => {
   }
 };
 
-const joinFiles = (res) => {
-  join(filename);
+const joinFiles = async (res) => {
+  await join(filename);
   filename.splice(0, filename.length);
-  return res.status(200).json({ join: "all join" });
+  return res
+    .status(200)
+    .json({ join: "Файлы успешно объединены, выдача ответа..." });
 };
 
 const compareFiles = (res) => {

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/up.css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="stylesheet" href="css/media.css" type="text/css" />
-    <title>Объединить РСО</title>
+    <title>Объединить протоколы РСО</title>
   </head>
   <body>
     <!-- position-absolute / fixed-top-->
@@ -38,8 +38,8 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="http://192.168.0.103/index.html"
-                >Объединить файлы РСО</a
+                href="http://192.168.0.103/join.html"
+                >Объединить протоколы РСО</a
               >
             </li>
             <li class="nav-item">
@@ -52,7 +52,7 @@
             </li>
           </ul>
 
-          <span class="navbar-text"> Версия 1.0.0 beta</span>
+          <span class="navbar-text"> Версия 1.1.0</span>
         </div>
         <button
           class="navbar-toggler"
@@ -70,14 +70,16 @@
 
     <div class="container">
       <div class="input">
-        <h1>Объединение файлов РСО</h1>
-        <p>Загрузите ваши файлы и нажмите кнопку "Объединить":</p>
+        <h1>Объединение протоколов РСО</h1>
+        <p>Вложите zip-архив и нажмите кнопку "Объединить":</p>
 
         <form name="uploader" enctype="multipart/form-data" method="POST">
           <div class="form">
             <div class="input-files">
               <div class="mb-3">
-                <label for="formFile" class="form-label">Вложите файлы:</label>
+                <label for="formFile" class="form-label"
+                  >Вложите zip-архив:</label
+                >
                 <input
                   class="form-control"
                   name="userfile"

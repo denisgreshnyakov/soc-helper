@@ -26,6 +26,7 @@ window.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         showResult(data.join);
+        downloadResult();
       })
       .catch((err) => {
         showResult(`Ошибка клиента при отправке файлов на сервер. ${err}`);
@@ -57,5 +58,29 @@ window.addEventListener("DOMContentLoaded", () => {
     spanUploadFiles.style = "display: block";
     spinnerUpload[0].style = "display: none";
     spinnerUpload[1].style = "display: none";
+  };
+
+  const downloadResult = async () => {
+    try {
+      const response = await fetch("http://192.168.0.103:80/uploads");
+      if (response.status === 200) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = `Результат объединения.xlsx`;
+        document.body.append(link);
+        link.click();
+        link.remove();
+      } else if (response.status === 500) {
+        showResult(
+          `Ошибка сервера при отправке файла на клиент: ${response.status}`
+        );
+      }
+    } catch (e) {
+      showResult(
+        `Ошибка клиента при попытке загрузить файл результата объединения. ${e}`
+      );
+    }
   };
 });
