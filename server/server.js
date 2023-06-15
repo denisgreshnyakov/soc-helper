@@ -45,8 +45,8 @@ const postCompareHandler = (req, res) => {
   }
 };
 
-const joinFiles = async (res) => {
-  await join(filename);
+const joinFiles = (res) => {
+  join(filename);
   filename.splice(0, filename.length);
   return res
     .status(200)
@@ -110,7 +110,7 @@ app.post("/", uploads.array("files"), postCompareHandler);
 //download to client
 app.get("/uploads", postDownloadHandler);
 
-app.listen(3000, "192.168.1.27", () => {
+app.listen(80, "192.168.0.103", () => {
   console.log("SOC-Helper 1.1.0 начал работу");
 });
 
