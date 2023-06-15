@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
     formData.append("files", fileReq.files[0]);
 
     //http://192.168.1.27:80/uploads
-    fetch("http://192.168.0.103:80/", {
+    fetch("http://192.168.1.27:3000/", {
       method: "POST",
       body: formData,
     })
@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const downloadResult = async () => {
     try {
-      const response = await fetch("http://192.168.0.103:80/uploads");
+      const response = await fetch("http://192.168.1.27:3000/uploads");
       if (response.status === 200) {
         const blob = await response.blob();
         const downloadUrl = window.URL.createObjectURL(blob);

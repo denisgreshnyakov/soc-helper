@@ -60,6 +60,23 @@ const join = async (filename) => {
 
       console.log("Формирование результата объединения...");
       const workSheet = XLSX.utils.json_to_sheet(result);
+
+      workSheet["!cols"] = [
+        { wch: 50 },
+        { wch: 20 },
+        { wch: 120 },
+        { wch: 16 },
+        { wch: 35 },
+        { wch: 35 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+        { wch: 20 },
+      ];
       const workBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(
         workBook,

@@ -110,8 +110,8 @@ app.post("/", uploads.array("files"), postCompareHandler);
 //download to client
 app.get("/uploads", postDownloadHandler);
 
-app.listen(80, "192.168.0.103", () => {
-  console.log("SOC-Helper начал работу");
+app.listen(3000, "192.168.1.27", () => {
+  console.log("SOC-Helper 1.1.0 начал работу");
 });
 
 // app.listen(80, "192.168.1.27", () => {
