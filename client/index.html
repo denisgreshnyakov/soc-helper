@@ -2,23 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link
       type="image/x-icon"
-      href="img/scale-unbalanced-solid.svg"
+      href="assets/img/scale-unbalanced-solid.svg"
       rel="shortcut icon"
     />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/dots.css" />
-    <link rel="stylesheet" href="css/up.css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link rel="stylesheet" href="css/media.css" type="text/css" />
+
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <title>Сравнить РСО</title>
   </head>
   <body>
-    <!-- position-absolute / fixed-top-->
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light position-absolute"
     >
@@ -73,7 +67,12 @@
         <h1>Сравнение файлов РСО</h1>
         <p>Вложите файлы и нажмите кнопку "Сравнить":</p>
 
-        <form name="uploader" enctype="multipart/form-data" method="POST">
+        <form
+          class="formCompare"
+          name="uploader"
+          enctype="multipart/form-data"
+          method="POST"
+        >
           <div class="form">
             <div class="input-files">
               <div class="mb-3">
@@ -140,9 +139,7 @@
       </div>
     </footer>
     <div class="btn-up btn-up_hide"></div>
+    <script src="js/bundle.js"></script>
+    <script src="js/bootstrap.min.js"></script>
   </body>
-  <script src="js/compare.js"></script>
-  <script src="js/fixUrl.js"></script>
-  <script src="js/up.js"></script>
-  <script defer src="js/bootstrap.min.js"></script>
 </html>

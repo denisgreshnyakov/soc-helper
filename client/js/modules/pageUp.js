@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+const pageUp = () => {
   const btnUp = {
     el: document.querySelector(".btn-up"),
     show() {
@@ -32,4 +32,6 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   btnUp.addEventListener();
-});
+};
+
+export default pageUp;

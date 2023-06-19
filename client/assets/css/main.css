@@ -17,7 +17,6 @@ body {
   justify-content: center;
   position: relative;
   background-color: rgb(255, 255, 255);
-  /* padding: 0 calc(20px - (100vw - 100%)) 0 0; */
 }
 
 nav {
@@ -40,14 +39,12 @@ nav {
 .container {
   width: 1200px;
   min-height: calc(100vh - 5vh);
-  /* min-height: calc(100vh - 80px); */
   margin: 0 auto;
   z-index: 0;
   padding: 5vh calc(20px - (100vw - 100%)) 5vh 0;
 }
 
 .input {
-  /* min-height: 95vh; */
   min-height: 65vh;
   display: flex;
   flex-direction: column;
@@ -160,6 +157,7 @@ footer {
   background: #efefef;
   border: 1px solid #dddddd;
 }
+
 .table td {
   border: 1px solid #dddddd;
   padding: 5px;

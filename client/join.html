@@ -7,18 +7,13 @@
 
     <link
       type="image/x-icon"
-      href="img/shuffle-solid.svg"
+      href="assets/img/shuffle-solid.svg"
       rel="shortcut icon"
     />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/dots.css" />
-    <link rel="stylesheet" href="css/up.css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link rel="stylesheet" href="css/media.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
     <title>Объединить протоколы РСО</title>
   </head>
   <body>
-    <!-- position-absolute / fixed-top-->
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light position-absolute"
     >
@@ -73,7 +68,12 @@
         <h1>Объединение протоколов РСО</h1>
         <p>Вложите zip-архив и нажмите кнопку "Объединить":</p>
 
-        <form name="uploader" enctype="multipart/form-data" method="POST">
+        <form
+          class="formJoin"
+          name="uploader"
+          enctype="multipart/form-data"
+          method="POST"
+        >
           <div class="form">
             <div class="input-files">
               <div class="mb-3">
@@ -86,7 +86,6 @@
                   type="file"
                   id="file-request"
                   required
-                  multiple
                 />
               </div>
             </div>
@@ -128,7 +127,6 @@
     </footer>
     <div class="btn-up btn-up_hide"></div>
   </body>
-  <script src="js/join.js"></script>
-  <script src="js/fixUrl.js"></script>
-  <script defer src="js/bootstrap.min.js"></script>
+  <script src="js/bundle.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 </html>

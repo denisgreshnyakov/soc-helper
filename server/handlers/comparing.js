@@ -1,5 +1,6 @@
 const XLSX = require("xlsx");
 const fs = require("fs");
+const path = require("path");
 
 const data = [];
 const result = [];
@@ -67,7 +68,7 @@ const compare = (filename) => {
 
     filename.forEach((elem, i) => {
       console.log("Чтение " + i + " файла: " + elem);
-      const workbook = XLSX.readFile(__dirname + "/uploads/" + elem);
+      const workbook = XLSX.readFile(path.join(__dirname, "../uploads/", elem));
 
       const workssheet = workbook.Sheets[workbook.SheetNames[0]];
 
@@ -109,7 +110,7 @@ const compare = (filename) => {
       const workSheet = XLSX.utils.json_to_sheet(result);
       const workBook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workBook, workSheet, "Отсутствуют ответы");
-      XLSX.writeFile(workBook, __dirname + "/uploads/result.xlsx");
+      XLSX.writeFile(workBook, path.join(__dirname, "../uploads/result.xlsx"));
     }
 
     console.log("Сравнение завершено");
@@ -121,8 +122,8 @@ const compare = (filename) => {
     };
   } finally {
     filename.forEach((elem, i) => {
-      if (fs.existsSync(`${__dirname}/uploads/${elem}`)) {
-        fs.unlink(__dirname + "/uploads/" + elem, (e) => {
+      if (fs.existsSync(path.join(__dirname, "../uploads/", elem))) {
+        fs.unlink(path.join(__dirname, "../uploads/", elem), (e) => {
           if (e) {
             console.log(e);
           } else {
