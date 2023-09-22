@@ -2,6 +2,7 @@ import { showResult, showTable, animationDownload } from "../modules/show";
 
 const formCompare = document.querySelector(".formCompare");
 const formJoin = document.querySelector(".formJoin");
+const formList = document.querySelector(".formList");
 
 const fileReq = document.getElementById("file-request");
 const fileAn = document.getElementById("file-answer");
@@ -92,6 +93,42 @@ const submitJoiningData = (ip, port) => {
   }
 };
 
+const submitListingData = (ip, port) => {
+  if (formList !== null) {
+    formList.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      animationDownload();
+
+      const formData = new FormData();
+
+      formData.append("files", fileReq.files[0]);
+
+      let status;
+
+      fetch(`http://${ip}:${port}/list`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          status = res.status;
+          return res.json();
+        })
+        .then((data) => {
+          showResult(data.join);
+          if (status === 200) {
+            downloadResult("list", ip, port);
+            showResult(`Пока все ок.`);
+          }
+        })
+        .catch((err) => {
+          showResult(`Ошибка клиента при отправке файлов на сервер. ${err}`);
+        });
+      e.target.reset();
+    });
+  }
+};
+
 const downloadResult = async (type, ip, port) => {
   try {
     const response = await fetch(`http://${ip}:${port}/uploads`);
@@ -104,6 +141,11 @@ const downloadResult = async (type, ip, port) => {
         link.download = `Результат_сравнения_${forResultName.POSTAV}_${forResultName.MONTH_S}_${forResultName.YEAR_S}.xlsx`;
       } else if (type === "join") {
         link.download = `Результат объединения.xlsx`;
+      } else if (type === "list") {
+        const today = new Date();
+        const now = today.toLocaleString();
+
+        link.download = `Список ТИ на ${now}.xlsx`;
       }
       document.body.append(link);
       link.click();
@@ -122,8 +164,12 @@ const downloadResult = async (type, ip, port) => {
       showResult(
         `Ошибка клиента при попытке загрузить файл результата объединения. ${e}`
       );
+    } else if (type === "list") {
+      showResult(
+        `Ошибка клиента при попытке загрузить файл списка для ТИ. ${e}`
+      );
     }
   }
 };
 
-export { submitComparingData, submitJoiningData };
+export { submitComparingData, submitJoiningData, submitListingData };

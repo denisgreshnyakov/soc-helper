@@ -10,6 +10,8 @@ module.exports = (app) => {
   app.post("/compare", uploads.array("files"), handlers.postCompareHandler);
   //join files
   app.post("/join", uploads.array("files"), handlers.postJoinFiles);
+  //create print sample
+  app.post("/list", uploads.array("files"), handlers.postListFile);
   //download to client
   app.get("/uploads", handlers.postDownloadHandler);
 };

@@ -4,6 +4,7 @@ const config = require("../config/config");
 
 const compare = require("./comparing");
 const joining = require("./joining");
+const listing = require("./listing");
 
 const postCompareHandler = (req, res) => {
   console.log("Файлы успешно загружены на сервер");
@@ -64,8 +65,18 @@ const postJoinFiles = async (req, res) => {
   }
 };
 
+const postListFile = async (req, res) => {
+  console.log("Файл успешно загружен на сервер");
+  const result = await listing(config.filename);
+  config.filename.splice(0, config.filename.length);
+  return res
+    .status(200)
+    .json({ join: "Шаблон для печати успешно создан, выдача ответа..." });
+};
+
 module.exports = {
   postCompareHandler,
   postJoinFiles,
   postDownloadHandler,
+  postListFile,
 };

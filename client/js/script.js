@@ -1,6 +1,10 @@
 import pageUp from "./modules/pageUp";
 import { editContent, ip, port } from "./modules/editContent";
-import { submitComparingData, submitJoiningData } from "./services/requests";
+import {
+  submitComparingData,
+  submitJoiningData,
+  submitListingData,
+} from "./services/requests";
 
 window.addEventListener("DOMContentLoaded", () => {
   "use strict";
@@ -9,4 +13,5 @@ window.addEventListener("DOMContentLoaded", () => {
   editContent();
   submitComparingData(ip, port);
   submitJoiningData(ip, port);
+  submitListingData(ip, port);
 });

@@ -31,7 +31,7 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link active"
+                class="nav-link "
                 aria-current="page"
                 href="http://192.168.1.27:3000/join.html"
                 >Объединить протоколы РСО</a
@@ -39,7 +39,7 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link "
+                class="nav-link active"
                 aria-current="page"
                 href="http://192.168.1.27:3000/list.html"
                 >Подготовка списка для ТИ</a
@@ -73,11 +73,11 @@
 
     <div class="container">
       <div class="input">
-        <h1>Объединение протоколов РСО</h1>
-        <p>Вложите zip-архив и нажмите кнопку "Объединить":</p>
+        <h1>Подготовка списка для ТИ</h1>
+        <p>Вложите Excel-файл и нажмите кнопку Сформировать:</p>
 
         <form
-          class="formJoin"
+          class="formList"
           name="uploader"
           enctype="multipart/form-data"
           method="POST"
@@ -86,7 +86,7 @@
             <div class="input-files">
               <div class="mb-3">
                 <label for="formFile" class="form-label"
-                  >Вложите zip-архив:</label
+                  >Вложите Excel-файл:</label
                 >
                 <input
                   class="form-control"
@@ -105,7 +105,7 @@
                 name="submit"
                 id="upload"
               >
-                <span class="span-upload-files">Объединить файлы</span>
+                <span class="span-upload-files">Сформировать</span>
                 <span
                   class="spinner-upload spinner-border spinner-border-sm"
                   role="status"
