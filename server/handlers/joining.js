@@ -1,4 +1,5 @@
 const XLSX = require("xlsx");
+const ExcelJS = require("exceljs");
 const extract = require("extract-zip");
 const path = require("path");
 const fs = require("fs");
@@ -79,7 +80,7 @@ const deleteFiles = (item) => {
   });
 };
 
-const createResult = () => {
+const createResult = async () => {
   console.log("Формирование результата объединения...");
   const workSheet = XLSX.utils.json_to_sheet(result);
 
@@ -99,9 +100,36 @@ const createResult = () => {
     { wch: 20 },
     { wch: 20 },
   ];
+
   const workBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workBook, workSheet, "Объединенный результат");
   XLSX.writeFile(workBook, path.join(__dirname, "../uploads/result.xlsx"));
+
+  const test = new ExcelJS.Workbook();
+  await test.xlsx.readFile(path.join(__dirname, "../uploads/result.xlsx"));
+
+  // console.log(test._worksheets);
+  const worksheet = test.getWorksheet("Объединенный результат");
+
+  // const header = worksheet.getRow(1);
+
+  worksheet.mergeCells("W1:Z1");
+
+  // table.getCell("A1").border = {
+  //   top: { style: "thin" },
+  //   left: { style: "thin" },
+  //   bottom: { style: "thin" },
+  //   right: { style: "thin" },
+  // };
+  // worksheet.getColumn("B").font = {
+  //   name: "Comic Sans MS",
+  //   family: 4,
+  //   size: 16,
+  //   underline: true,
+  //   bold: true,
+  // };
+  // console.log(header);
+  await test.xlsx.writeFile(path.join(__dirname, "../uploads/test.xlsx"));
 };
 
 module.exports = joining;
