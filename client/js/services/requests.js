@@ -118,7 +118,7 @@ const submitListingData = (ip, port) => {
           showResult(data.join);
           if (status === 200) {
             downloadResult("list", ip, port);
-            showResult(`Пока все ок.`);
+            showResult(`Формирование шаблона успешно завершено.`);
           }
         })
         .catch((err) => {
