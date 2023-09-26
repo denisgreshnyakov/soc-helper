@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 
 const port = 80;
-const ip = "192.168.1.101";
+const ip = "192.168.1.27";
 const version = "1.1.1";
 
 const filename = [];
