@@ -10,6 +10,8 @@ const cleanColumns = [];
 const result = [];
 let zipName = "";
 
+let district = "";
+
 let headers;
 
 let countAll = 0;
@@ -60,18 +62,42 @@ const listing = async (filename) => {
       if (i === 3 && typeof element === "number") {
         let date = getJsDateFromExcel(row.getCell(3).value);
         let day = date.getDate();
-        let month = date.getMonth();
+        let month = date.getMonth() + 1;
         let year = date.getFullYear();
 
-        row.getCell(3).value = `${day}.${month}.${year}`;
+        if (month < 10) {
+          if (day < 10) {
+            row.getCell(3).value = `0${day}.0${month}.${year}`;
+          } else {
+            row.getCell(3).value = `${day}.0${month}.${year}`;
+          }
+        } else {
+          if (day < 10) {
+            row.getCell(3).value = `0${day}.${month}.${year}`;
+          } else {
+            row.getCell(3).value = `${day}.${month}.${year}`;
+          }
+        }
       }
       if (i === 8 && typeof element === "number") {
         let date = getJsDateFromExcel(row.getCell(8).value);
         let day = date.getDate();
-        let month = date.getMonth();
+        let month = date.getMonth() + 1;
         let year = date.getFullYear();
 
-        row.getCell(8).value = `${day}.${month}.${year}`;
+        if (month < 10) {
+          if (day < 10) {
+            row.getCell(8).value = `0${day}.0${month}.${year}`;
+          } else {
+            row.getCell(8).value = `${day}.0${month}.${year}`;
+          }
+        } else {
+          if (day < 10) {
+            row.getCell(8).value = `0${day}.${month}.${year}`;
+          } else {
+            row.getCell(8).value = `${day}.${month}.${year}`;
+          }
+        }
       }
     });
   });
@@ -342,10 +368,13 @@ const listing = async (filename) => {
   book.removeWorksheet("Прочее временно");
   book.removeWorksheet("Sheet0");
 
+  district = sheetNewAll.getCell("O3").value;
+
   await book.xlsx.writeFile(path.join(__dirname, `../uploads/result.xlsx`));
 
   // await workbook.xlsx.writeFile(path.join(__dirname, "../uploads/result.xlsx"));
   console.log("Формирование шаблона завершено.");
+  return district;
 };
 
 const sortByColumn = (columnNum, worksheet, newWorkSheet) => {
@@ -429,11 +458,35 @@ const createStyles = (sheet, countReq, title) => {
     horizontal: "center",
   };
 
-  sheet.getCell(
-    "A1"
-  ).value = `${title} из регистра карточек обращений; Дата создания списка: ${day}.${
-    month + 1
-  }.${year};  Всего карточек: ${countReq}; Выполнил: Грешняков Д.В.`;
+  if (month < 10) {
+    if (day < 10) {
+      sheet.getCell(
+        "A1"
+      ).value = `${title} из регистра карточек обращений; Дата создания списка: 0${day}.0${
+        month + 1
+      }.${year};  Всего карточек: ${countReq}; Выполнил: Грешняков Д.В.`;
+    } else {
+      sheet.getCell(
+        "A1"
+      ).value = `${title} из регистра карточек обращений; Дата создания списка: ${day}.0${
+        month + 1
+      }.${year};  Всего карточек: ${countReq}; Выполнил: Грешняков Д.В.`;
+    }
+  } else {
+    if (day < 10) {
+      sheet.getCell(
+        "A1"
+      ).value = `${title} из регистра карточек обращений; Дата создания списка: 0${day}.${
+        month + 1
+      }.${year};  Всего карточек: ${countReq}; Выполнил: Грешняков Д.В.`;
+    } else {
+      sheet.getCell(
+        "A1"
+      ).value = `${title} из регистра карточек обращений; Дата создания списка: ${day}.${
+        month + 1
+      }.${year};  Всего карточек: ${countReq}; Выполнил: Грешняков Д.В.`;
+    }
+  }
   sheet.getRow(2).eachCell(function (cell, cellNumber) {
     cell.border = {
       top: { style: "thin" },
@@ -505,31 +558,5 @@ const createStyles = (sheet, countReq, title) => {
   sheet.pageSetup.paperSize = 9;
   sheet.pageSetup.printArea = `A1:O${countReq + 2}`;
 };
-
-function ExcelDateToJSDate(serial) {
-  var utc_days = Math.floor(serial - 25569);
-  var utc_value = utc_days * 86400;
-  var date_info = new Date(utc_value * 1000);
-
-  var fractional_day = serial - Math.floor(serial) + 0.0000001;
-
-  var total_seconds = Math.floor(86400 * fractional_day);
-
-  var seconds = total_seconds % 60;
-
-  total_seconds -= seconds;
-
-  var hours = Math.floor(total_seconds / (60 * 60));
-  var minutes = Math.floor(total_seconds / 60) % 60;
-
-  return new Date(
-    date_info.getFullYear(),
-    date_info.getMonth(),
-    date_info.getDate(),
-    hours,
-    minutes,
-    seconds
-  );
-}
 
 module.exports = listing;

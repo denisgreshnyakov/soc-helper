@@ -13,6 +13,8 @@ let forResultName = {
   YEAR_S: "",
 };
 
+let district = "";
+
 const submitComparingData = (ip, port) => {
   if (formCompare !== null) {
     formCompare.addEventListener("submit", (e) => {
@@ -117,6 +119,7 @@ const submitListingData = (ip, port) => {
         .then((data) => {
           showResult(data.join);
           if (status === 200) {
+            district = data.district;
             downloadResult("list", ip, port);
             showResult(`Формирование шаблона успешно завершено.`);
           }
@@ -142,10 +145,14 @@ const downloadResult = async (type, ip, port) => {
       } else if (type === "join") {
         link.download = `Результат объединения.xlsx`;
       } else if (type === "list") {
-        const today = new Date();
-        const now = today.toLocaleString();
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const day = now.getDate();
 
-        link.download = `Список ТИ на ${now}.xlsx`;
+        link.download = `Список ТИ ${district} на ${day}.${
+          month + 1
+        }.${year};.xlsx`;
       }
       document.body.append(link);
       link.click();

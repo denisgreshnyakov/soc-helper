@@ -71,7 +71,10 @@ const postListFile = async (req, res) => {
   config.filename.splice(0, config.filename.length);
   return res
     .status(200)
-    .json({ join: "Шаблон для печати успешно создан, выдача ответа..." });
+    .json({
+      join: "Шаблон для печати успешно создан, выдача ответа...",
+      district: result,
+    });
 };
 
 module.exports = {
