@@ -117,6 +117,7 @@ const listing = async (filename) => {
   const sheetTourism = book.addWorksheet("Соц. туризм");
   const sheetAdaptation = book.addWorksheet("Соц. адаптация");
   const sheetUnknown = book.addWorksheet("Прочее");
+  const sheetStatistics = book.addWorksheet("Статистика");
 
   //temporary sheets
   const sheetTempRef = book.addWorksheet("Справки временно");
@@ -370,6 +371,8 @@ const listing = async (filename) => {
 
   district = sheetNewAll.getCell("O3").value;
 
+  createStatistics(sheetStatistics, district);
+
   await book.xlsx.writeFile(path.join(__dirname, `../uploads/result.xlsx`));
 
   // await workbook.xlsx.writeFile(path.join(__dirname, "../uploads/result.xlsx"));
@@ -557,6 +560,73 @@ const createStyles = (sheet, countReq, title) => {
   sheet.pageSetup.orientation = "landscape";
   sheet.pageSetup.paperSize = 9;
   sheet.pageSetup.printArea = `A1:O${countReq + 2}`;
+  sheet.pageSetup.fitToPage = true;
+  sheet.pageSetup.fitToWidth = 1;
+  sheet.pageSetup.fitToHeight = 0;
+};
+
+const createStatistics = (sheet, district) => {
+  sheet.getCell("A1").value = "Район";
+  sheet.getCell("B1").value = "Всего";
+  sheet.getCell("C1").value = "Справки";
+  sheet.getCell("D1").value = "Погребение";
+  sheet.getCell("E1").value = "АСПК";
+  sheet.getCell("F1").value = "Иное";
+  sheet.getCell("G1").value = "Общие";
+  sheet.getCell("H1").value = "ЕДВ 3-7";
+  sheet.getCell("I1").value = "По заявлению";
+  sheet.getCell("J1").value = "ЕДК";
+  sheet.getCell("K1").value = "ВТ";
+
+  sheet.getCell("A2").value = district;
+  sheet.getCell("B2").value = countAll;
+  sheet.getCell("C2").value = countRef;
+  sheet.getCell("D2").value = countBurial;
+  sheet.getCell("E2").value = countASPK;
+  countNU !== 0 ||
+  countUK !== 0 ||
+  countTourism !== 0 ||
+  countAdaptation !== 0 ||
+  countUnknown !== 0
+    ? (sheet.getCell("F2").value = `
+    Нар. университет ${countNU};
+    Мат. пом. срочно ${countUK};
+    Соц. туризм ${countTourism};
+    Соц. адаптация ${countAdaptation};
+    Прочее ${countUnknown};
+  
+  `)
+    : (sheet.getCell("F2").value = 0);
+  sheet.getCell("G2").value = countCommon;
+  sheet.getCell("H2").value = count37;
+  sheet.getCell("I2").value = countDec;
+  sheet.getCell("J2").value = countEDK;
+  sheet.getCell("K2").value = countVT;
+
+  sheet.getColumn(1).width = 17.86;
+  sheet.getColumn(6).width = 30;
+
+  sheet.eachRow((row, rowNumber) => {
+    row.eachCell((cell, i) => {
+      cell.alignment = {
+        wrapText: true,
+        vertical: "middle",
+        horizontal: "center",
+      };
+
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+      cell.font = {
+        name: "Times New Roman",
+        size: 12,
+        bold: true,
+      };
+    });
+  });
 };
 
 module.exports = listing;
