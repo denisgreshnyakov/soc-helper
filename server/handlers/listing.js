@@ -1,14 +1,8 @@
 const XLSX = require("xlsx");
 const ExcelJS = require("exceljs");
 const { getJsDateFromExcel } = require("excel-date-to-js");
-const extract = require("extract-zip");
 const path = require("path");
 const fs = require("fs");
-
-const data = [];
-const cleanColumns = [];
-const result = [];
-let zipName = "";
 
 let district = "";
 
@@ -18,7 +12,6 @@ let countAll = 0;
 let countRef = 0;
 let countBurial = 0;
 let countASPK = 0;
-let countAnother = 0;
 let countNU = 0;
 let countUK = 0;
 let countTourism = 0;
@@ -134,11 +127,7 @@ const listing = async (filename) => {
   const sheetTempVT = book.addWorksheet("ВТ временно");
   const sheetTempUnknown = book.addWorksheet("Прочее временно");
 
-  // sheetRef.addRow(["Справки из регистра карточек обращений"]);
-
   worksheet.eachRow(function (row, rowNumber) {
-    // console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-
     if (rowNumber === 2) {
       headers = row.values;
     }
@@ -149,14 +138,11 @@ const listing = async (filename) => {
     }
 
     row.values.forEach((element, i) => {
-      // console.log(`${i}: ${element}`);
-
       if (
         i === 13 &&
         typeof element === "string" &&
         element.includes("правк")
       ) {
-        // console.log(row.values);
         countRef++;
         sheetTempRef.addRow(row.values);
       } else if (
@@ -375,8 +361,27 @@ const listing = async (filename) => {
 
   await book.xlsx.writeFile(path.join(__dirname, `../uploads/result.xlsx`));
 
-  // await workbook.xlsx.writeFile(path.join(__dirname, "../uploads/result.xlsx"));
+  headers = null;
+
+  countAll = 0;
+  countRef = 0;
+  countBurial = 0;
+  countASPK = 0;
+  countNU = 0;
+  countUK = 0;
+  countTourism = 0;
+  countAdaptation = 0;
+  countCommon = 0;
+  count37 = 0;
+  countDec = 0;
+  countEDK = 0;
+  countVT = 0;
+  countUnknown = 0;
+
+  deleteTempFiles(filename[0]);
+
   console.log("Формирование шаблона завершено.");
+
   return district;
 };
 
@@ -403,10 +408,6 @@ const sortByColumn = (columnNum, worksheet, newWorkSheet) => {
     for (let i = 0; i < rows.length; i++) {
       newWorkSheet.addRow(rows[i]);
     }
-
-    // newWorkSheet.eachRow(function (row, rowNumber) {
-    //   console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-    // });
   }
 };
 
@@ -532,8 +533,6 @@ const createStyles = (sheet, countReq, title) => {
     });
   });
 
-  //sheet.getCell("I1").value = new Date;
-
   sheet.getColumn(1).width = 3;
   sheet.getColumn(2).width = 7.86;
   sheet.getColumn(3).width = 7.86;
@@ -556,7 +555,6 @@ const createStyles = (sheet, countReq, title) => {
     row.height = 63.75;
   });
 
-  // sheetRef.pageSetup.printTitlesColumn = "A:O";
   sheet.pageSetup.orientation = "landscape";
   sheet.pageSetup.paperSize = 9;
   sheet.pageSetup.printArea = `A1:O${countReq + 2}`;
@@ -627,6 +625,27 @@ const createStatistics = (sheet, district) => {
       };
     });
   });
+};
+
+const deleteTempFiles = (filename) => {
+  if (fs.existsSync(path.join(__dirname, "../uploads/", filename))) {
+    fs.unlink(path.join(__dirname, "../uploads/", filename), (e) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log("Файл " + filename + " был удален из временной директории");
+      }
+    });
+    fs.unlink(path.join(__dirname, "../uploads/changeFormat.xlsx"), (e) => {
+      if (e) {
+        console.log(e);
+      } else {
+        console.log(
+          "Файл changeFormat.xlsx был удален из временной директории"
+        );
+      }
+    });
+  }
 };
 
 module.exports = listing;
