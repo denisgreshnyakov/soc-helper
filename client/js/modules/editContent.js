@@ -1,6 +1,6 @@
-const ip = "192.168.1.27";
+const ip = "192.168.1.101";
 const port = "80";
-const version = "1.1.1";
+const version = "1.2.0";
 
 const editContent = () => {
   const links = document.querySelectorAll(".nav-link");

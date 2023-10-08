@@ -287,8 +287,6 @@ const listing = async (filename) => {
         sheetTempUnknown.addRow(row.values);
       }
     });
-
-    //Do whatever you want to do with this row like inserting in db, etc
   });
 
   countRef > 0 ? sortByColumn(7, sheetTempRef, sheetRef) : null;
