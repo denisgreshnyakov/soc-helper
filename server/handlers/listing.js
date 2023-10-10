@@ -46,9 +46,9 @@ const listing = async (filename) => {
 
   const worksheet = book.getWorksheet("Sheet0");
 
-  worksheet.spliceColumns(18, 10);
-  worksheet.spliceColumns(15, 2);
-  worksheet.spliceColumns(6, 1);
+  worksheet.spliceColumns(19, 11);
+  worksheet.spliceColumns(16, 2);
+  worksheet.spliceColumns(6, 2);
 
   worksheet.eachRow(function (row, rowNumber) {
     row.values.forEach((element, i) => {
@@ -287,6 +287,8 @@ const listing = async (filename) => {
         sheetTempUnknown.addRow(row.values);
       }
     });
+
+    //Do whatever you want to do with this row like inserting in db, etc
   });
 
   countRef > 0 ? sortByColumn(7, sheetTempRef, sheetRef) : null;
@@ -460,7 +462,7 @@ const createStyles = (sheet, countReq, title) => {
     horizontal: "center",
   };
 
-  if (month < 10) {
+  if (month + 1 < 10) {
     if (day < 10) {
       sheet.getCell(
         "A1"
