@@ -1,4 +1,4 @@
-const ip = "192.168.1.101";
+const ip = "10.51.11.3";
 const port = "80";
 const version = "1.2.0";
 

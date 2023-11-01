@@ -44,7 +44,7 @@ const listing = async (filename) => {
     path.join(__dirname, `../uploads/changeFormat.xlsx`)
   );
 
-  const worksheet = book.getWorksheet("Sheet0");
+  const worksheet = book.getWorksheet("Лист1");
 
   worksheet.spliceColumns(19, 11);
   worksheet.spliceColumns(16, 2);
@@ -353,7 +353,7 @@ const listing = async (filename) => {
   book.removeWorksheet("3-7 временно");
   book.removeWorksheet("ВТ временно");
   book.removeWorksheet("Прочее временно");
-  book.removeWorksheet("Sheet0");
+  book.removeWorksheet("Лист1");
 
   district = sheetNewAll.getCell("O3").value;
 
@@ -519,11 +519,20 @@ const createStyles = (sheet, countReq, title) => {
           bottom: { style: "thin" },
           right: { style: "thin" },
         };
-        cell.font = {
-          name: "Arial",
-          size: 10,
-          bold: false,
-        };
+        if (cellNumber === 7 || cellNumber === 8) {
+          cell.font = {
+            name: "Arial",
+            size: 12,
+            bold: true,
+          };
+        } else {
+          cell.font = {
+            name: "Arial",
+            size: 10,
+            bold: false,
+          };
+        }
+
         cell.alignment = {
           wrapText: true,
           vertical: "middle",
@@ -536,11 +545,11 @@ const createStyles = (sheet, countReq, title) => {
   sheet.getColumn(1).width = 3;
   sheet.getColumn(2).width = 7.86;
   sheet.getColumn(3).width = 7.86;
-  sheet.getColumn(4).width = 17.43;
+  sheet.getColumn(4).width = 11;
   sheet.getColumn(5).width = 13.57;
   sheet.getColumn(6).width = 13.57;
-  sheet.getColumn(7).width = 13.57;
-  sheet.getColumn(8).width = 20.71;
+  sheet.getColumn(7).width = 17;
+  sheet.getColumn(8).width = 22;
   sheet.getColumn(9).width = 10;
   sheet.getColumn(10).width = 13.57;
   sheet.getColumn(11).width = 27.86;
